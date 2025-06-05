@@ -1,0 +1,212 @@
+{
+  "algebraic_rules": [
+    {
+      "id": "square_of_sum",
+      "name": "Square of Sum",
+      "rule_type": "algebraic",
+      "pattern": "(a + b)**2",
+      "replacement": "a**2 + 2*a*b + b**2",
+      "conditions": [],
+      "justification": "Binomial expansion formula: (a + b)² = a² + 2ab + b²",
+      "priority": 4,
+      "bidirectional": true,
+      "metadata": {
+        "category": "binomial_expansion",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "polynomials", "expansion"]
+      }
+    },
+    {
+      "id": "square_of_difference",
+      "name": "Square of Difference",
+      "rule_type": "algebraic",
+      "pattern": "(a - b)**2",
+      "replacement": "a**2 - 2*a*b + b**2",
+      "conditions": [],
+      "justification": "Binomial expansion formula: (a - b)² = a² - 2ab + b²",
+      "priority": 4,
+      "bidirectional": true,
+      "metadata": {
+        "category": "binomial_expansion",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "polynomials", "expansion"]
+      }
+    },
+    {
+      "id": "difference_of_squares",
+      "name": "Difference of Squares",
+      "rule_type": "algebraic",
+      "pattern": "a**2 - b**2",
+      "replacement": "(a + b)*(a - b)",
+      "conditions": [],
+      "justification": "Factorization of difference of squares: a² - b² = (a + b)(a - b)",
+      "priority": 4,
+      "bidirectional": true,
+      "metadata": {
+        "category": "factorization",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "factorization", "special_products"]
+      }
+    },
+    {
+      "id": "perfect_square_trinomial_positive",
+      "name": "Perfect Square Trinomial (Positive)",
+      "rule_type": "algebraic", 
+      "pattern": "a**2 + 2*a*b + b**2",
+      "replacement": "(a + b)**2",
+      "conditions": [],
+      "justification": "Recognition of perfect square trinomial: a² + 2ab + b² = (a + b)²",
+      "priority": 3,
+      "bidirectional": true,
+      "metadata": {
+        "category": "factorization",
+        "difficulty": "intermediate",
+        "mathematical_concepts": ["algebra", "factorization", "perfect_squares"]
+      }
+    },
+    {
+      "id": "perfect_square_trinomial_negative",
+      "name": "Perfect Square Trinomial (Negative)",
+      "rule_type": "algebraic",
+      "pattern": "a**2 - 2*a*b + b**2", 
+      "replacement": "(a - b)**2",
+      "conditions": [],
+      "justification": "Recognition of perfect square trinomial: a² - 2ab + b² = (a - b)²",
+      "priority": 3,
+      "bidirectional": true,
+      "metadata": {
+        "category": "factorization",
+        "difficulty": "intermediate",
+        "mathematical_concepts": ["algebra", "factorization", "perfect_squares"]
+      }
+    },
+    {
+      "id": "distributive_property",
+      "name": "Distributive Property",
+      "rule_type": "algebraic",
+      "pattern": "a*(b + c)",
+      "replacement": "a*b + a*c",
+      "conditions": [],
+      "justification": "Distributive property of multiplication over addition: a(b + c) = ab + ac",
+      "priority": 5,
+      "bidirectional": true,
+      "metadata": {
+        "category": "fundamental_properties",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "distribution", "fundamental_properties"]
+      }
+    },
+    {
+      "id": "distributive_property_subtraction",
+      "name": "Distributive Property (Subtraction)",
+      "rule_type": "algebraic",
+      "pattern": "a*(b - c)",
+      "replacement": "a*b - a*c",
+      "conditions": [],
+      "justification": "Distributive property of multiplication over subtraction: a(b - c) = ab - ac",
+      "priority": 5,
+      "bidirectional": true,
+      "metadata": {
+        "category": "fundamental_properties",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "distribution", "fundamental_properties"]
+      }
+    },
+    {
+      "id": "sum_of_cubes",
+      "name": "Sum of Cubes",
+      "rule_type": "algebraic",
+      "pattern": "a**3 + b**3",
+      "replacement": "(a + b)*(a**2 - a*b + b**2)",
+      "conditions": [],
+      "justification": "Factorization of sum of cubes: a³ + b³ = (a + b)(a² - ab + b²)",
+      "priority": 3,
+      "bidirectional": true,
+      "metadata": {
+        "category": "factorization",
+        "difficulty": "advanced",
+        "mathematical_concepts": ["algebra", "factorization", "cubic_forms"]
+      }
+    },
+    {
+      "id": "difference_of_cubes",
+      "name": "Difference of Cubes",
+      "rule_type": "algebraic",
+      "pattern": "a**3 - b**3",
+      "replacement": "(a - b)*(a**2 + a*b + b**2)",
+      "conditions": [],
+      "justification": "Factorization of difference of cubes: a³ - b³ = (a - b)(a² + ab + b²)",
+      "priority": 3,
+      "bidirectional": true,
+      "metadata": {
+        "category": "factorization",
+        "difficulty": "advanced",
+        "mathematical_concepts": ["algebra", "factorization", "cubic_forms"]
+      }
+    },
+    {
+      "id": "quadratic_formula_discriminant",
+      "name": "Quadratic Discriminant",
+      "rule_type": "algebraic",
+      "pattern": "b**2 - 4*a*c",
+      "replacement": "b**2 - 4*a*c",
+      "conditions": ["a != 0"],
+      "justification": "Discriminant of quadratic equation ax² + bx + c = 0",
+      "priority": 2,
+      "bidirectional": false,
+      "metadata": {
+        "category": "quadratic_forms",
+        "difficulty": "intermediate",
+        "mathematical_concepts": ["algebra", "quadratics", "discriminant"]
+      }
+    },
+    {
+      "id": "zero_product_property",
+      "name": "Zero Product Property",
+      "rule_type": "algebraic",
+      "pattern": "a*b",
+      "replacement": "0",
+      "conditions": ["a = 0 or b = 0"],
+      "justification": "Zero product property: if ab = 0, then a = 0 or b = 0",
+      "priority": 2,
+      "bidirectional": false,
+      "metadata": {
+        "category": "fundamental_properties",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "zero_property", "factorization"]
+      }
+    },
+    {
+      "id": "additive_identity",
+      "name": "Additive Identity",
+      "rule_type": "algebraic",
+      "pattern": "a + 0",
+      "replacement": "a",
+      "conditions": [],
+      "justification": "Additive identity property: a + 0 = a",
+      "priority": 5,
+      "bidirectional": true,
+      "metadata": {
+        "category": "fundamental_properties",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "identity_properties"]
+      }
+    },
+    {
+      "id": "multiplicative_identity",
+      "name": "Multiplicative Identity",
+      "rule_type": "algebraic",
+      "pattern": "a*1",
+      "replacement": "a",
+      "conditions": [],
+      "justification": "Multiplicative identity property: a × 1 = a",
+      "priority": 5,
+      "bidirectional": true,
+      "metadata": {
+        "category": "fundamental_properties",
+        "difficulty": "basic",
+        "mathematical_concepts": ["algebra", "identity_properties"]
+      }
+    }
+  ]
+} 

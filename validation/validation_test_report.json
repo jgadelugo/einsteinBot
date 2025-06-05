@@ -1,0 +1,142 @@
+{
+  "summary": {
+    "total_formulas": 5,
+    "validated_formulas": 5,
+    "passed_formulas": 4,
+    "failed_formulas": 0,
+    "error_formulas": 1,
+    "partial_formulas": 0,
+    "overall_pass_rate": 0.8,
+    "average_confidence": 1.0,
+    "validation_time": 0.17576909065246582,
+    "timestamp": "2025-06-04 19:40:22"
+  },
+  "statistics": {
+    "batch_name": "random_5",
+    "total_tests_run": 436,
+    "total_passed_tests": 436,
+    "average_tests_per_formula": 87.2,
+    "average_pass_rate": 1.0,
+    "validation_config": {
+      "num_random_tests": 100,
+      "test_range": [
+        -10.0,
+        10.0
+      ],
+      "tolerance": 1e-10,
+      "random_seed": 42
+    }
+  },
+  "results_by_status": {
+    "PASS": [
+      "sample_formulas_sympy_compatible_0",
+      "sample_formulas_formula_3",
+      "sample_formulas_formula_0",
+      "sample_formulas_sympy_compatible_3"
+    ],
+    "FAIL": [],
+    "ERROR": [
+      "sample_formulas_formula_8"
+    ],
+    "PARTIAL": []
+  },
+  "errors_summary": [
+    "sample_formulas_formula_8: invalid syntax (<string>, line 1)"
+  ],
+  "detailed_results": {
+    "sample_formulas_sympy_compatible_0": {
+      "formula": "alpha + beta",
+      "status": "PASS",
+      "confidence_score": 1.0,
+      "pass_rate": 1.0,
+      "total_tests": 109,
+      "passed_tests": 109,
+      "failed_tests": 0,
+      "error_tests": 0,
+      "validation_time": 0.15397024154663086,
+      "symbols_found": [
+        "alpha",
+        "bEta"
+      ],
+      "error_summary": null,
+      "metadata": {
+        "formula_id": "sample_formulas_sympy_compatible_0",
+        "batch_name": "random_5"
+      }
+    },
+    "sample_formulas_formula_3": {
+      "formula": "pi * r**2",
+      "status": "PASS",
+      "confidence_score": 1.0,
+      "pass_rate": 1.0,
+      "total_tests": 109,
+      "passed_tests": 109,
+      "failed_tests": 0,
+      "error_tests": 0,
+      "validation_time": 0.006945610046386719,
+      "symbols_found": [
+        "r"
+      ],
+      "error_summary": null,
+      "metadata": {
+        "formula_id": "sample_formulas_formula_3",
+        "batch_name": "random_5"
+      }
+    },
+    "sample_formulas_formula_0": {
+      "formula": "x**2 + 2*x + 1",
+      "status": "PASS",
+      "confidence_score": 1.0,
+      "pass_rate": 1.0,
+      "total_tests": 109,
+      "passed_tests": 109,
+      "failed_tests": 0,
+      "error_tests": 0,
+      "validation_time": 0.012150764465332031,
+      "symbols_found": [
+        "x"
+      ],
+      "error_summary": null,
+      "metadata": {
+        "formula_id": "sample_formulas_formula_0",
+        "batch_name": "random_5"
+      }
+    },
+    "sample_formulas_sympy_compatible_3": {
+      "formula": "diff(f(x), x)",
+      "status": "PASS",
+      "confidence_score": 1.0,
+      "pass_rate": 1.0,
+      "total_tests": 109,
+      "passed_tests": 109,
+      "failed_tests": 0,
+      "error_tests": 0,
+      "validation_time": 0.0018498897552490234,
+      "symbols_found": [
+        "f"
+      ],
+      "error_summary": null,
+      "metadata": {
+        "formula_id": "sample_formulas_sympy_compatible_3",
+        "batch_name": "random_5"
+      }
+    },
+    "sample_formulas_formula_8": {
+      "formula": "n! / (k! * (n-k)!)",
+      "status": "ERROR",
+      "confidence_score": 0.0,
+      "pass_rate": 0.0,
+      "total_tests": 0,
+      "passed_tests": 0,
+      "failed_tests": 0,
+      "error_tests": 0,
+      "validation_time": 0.00038504600524902344,
+      "symbols_found": [],
+      "error_summary": "invalid syntax (<string>, line 1)",
+      "metadata": {
+        "formula_id": "sample_formulas_formula_8",
+        "batch_name": "random_5"
+      }
+    }
+  }
+}

@@ -680,24 +680,97 @@ class ProofAttemptEngine:
             )
     
     def _try_pattern_matching(self, theorem: Theorem) -> ProofResult:
-        """Try pattern matching for common mathematical forms."""
+        """Enhanced pattern matching using LogicalRuleEngine."""
+        start_time = time.time()
         steps = []
-        expr = theorem.sympy_expression
         
         try:
+            # Import LogicalRuleEngine
+            from .utils.logic import LogicalRuleEngine
+            
+            # Initialize rule engine
+            rule_engine = LogicalRuleEngine()
+            
+            # Get theorem expression
+            expr = theorem.sympy_expression
+            
             if isinstance(expr, Eq):
                 lhs, rhs = expr.lhs, expr.rhs
                 
+                # Strategy 1: Try to transform LHS to RHS using rules
+                transformation_path = rule_engine.find_transformation_path(lhs, rhs, max_depth=5)
+                
+                if transformation_path:
+                    # Build proof steps from transformation path
+                    current_expr = lhs
+                    for i, rule in enumerate(transformation_path):
+                        new_expr, success, info = rule_engine.apply_rule(current_expr, rule)
+                        if success:
+                            steps.append(ProofStep(
+                                step_number=i + 1,
+                                method="rule_application",
+                                from_expression=str(current_expr),
+                                to_expression=str(new_expr),
+                                justification=rule.justification,
+                                transformation_rule=rule.name
+                            ))
+                            current_expr = new_expr
+                        else:
+                            # Rule application failed in sequence
+                            break
+                    
+                    # Check if we reached the target
+                    if sp.simplify(current_expr - rhs) == 0:
+                        return ProofResult(
+                            theorem_id=theorem.id,
+                            status=ProofStatus.PROVED,
+                            method=ProofMethod.PATTERN_MATCHING,
+                            steps=steps,
+                            execution_time=time.time() - start_time,
+                            confidence_score=0.95
+                        )
+                
+                # Strategy 2: Apply rules to both sides and check equivalence
+                if not steps:  # Only if transformation path didn't work
+                    lhs_sequence = rule_engine.apply_rule_sequence(lhs, max_steps=3)
+                    rhs_sequence = rule_engine.apply_rule_sequence(rhs, max_steps=3)
+                    
+                    # Check if any transformations lead to equivalence
+                    current_lhs = lhs
+                    for step in lhs_sequence:
+                        current_lhs = sp.parse_expr(step['to_expression'])
+                        if sp.simplify(current_lhs - rhs) == 0:
+                            # Found proof through LHS transformation
+                            for j, lhs_step in enumerate(lhs_sequence[:len(steps)+1]):
+                                steps.append(ProofStep(
+                                    step_number=j + 1,
+                                    method="rule_application",
+                                    from_expression=lhs_step['from_expression'],
+                                    to_expression=lhs_step['to_expression'],
+                                    justification=lhs_step['justification'],
+                                    transformation_rule=lhs_step.get('rule_applied', 'Unknown')
+                                ))
+                            
+                            return ProofResult(
+                                theorem_id=theorem.id,
+                                status=ProofStatus.PROVED,
+                                method=ProofMethod.PATTERN_MATCHING,
+                                steps=steps,
+                                execution_time=time.time() - start_time,
+                                confidence_score=0.85
+                            )
+                
+                # Strategy 3: Legacy pattern matching for specific cases
                 # For perfect square patterns like (x+1)^2 = x^2 + 2x + 1
                 if str(lhs).find("**2") != -1:
                     expanded_lhs = expand(lhs)
                     if expanded_lhs.equals(rhs):
                         steps.append(ProofStep(
-                            step_number=1,
+                            step_number=len(steps) + 1,
                             method="pattern_recognition",
                             from_expression=str(expr),
                             to_expression="Perfect square expansion",
-                            justification="Recognized perfect square pattern"
+                            justification="Recognized and verified perfect square pattern"
                         ))
                         
                         return ProofResult(
@@ -705,26 +778,53 @@ class ProofAttemptEngine:
                             status=ProofStatus.PROVED,
                             method=ProofMethod.PATTERN_MATCHING,
                             steps=steps,
-                            execution_time=0.0,
+                            execution_time=time.time() - start_time,
                             confidence_score=0.9
                         )
+            
+            # For non-equation expressions, try applying rules
+            else:
+                rule_sequence = rule_engine.apply_rule_sequence(expr, max_steps=3)
+                if rule_sequence:
+                    # Convert rule sequence to proof steps
+                    for step_info in rule_sequence:
+                        steps.append(ProofStep(
+                            step_number=step_info['step_number'],
+                            method="rule_application",
+                            from_expression=step_info['from_expression'],
+                            to_expression=step_info['to_expression'],
+                            justification=step_info['justification'],
+                            transformation_rule=step_info.get('rule_applied', 'Unknown')
+                        ))
+                    
+                    # This provides evidence but doesn't prove the theorem
+                    return ProofResult(
+                        theorem_id=theorem.id,
+                        status=ProofStatus.INCONCLUSIVE,
+                        method=ProofMethod.PATTERN_MATCHING,
+                        steps=steps,
+                        execution_time=time.time() - start_time,
+                        confidence_score=0.6,
+                        additional_info={'transformations_found': len(rule_sequence)}
+                    )
             
             return ProofResult(
                 theorem_id=theorem.id,
                 status=ProofStatus.INCONCLUSIVE,
                 method=ProofMethod.PATTERN_MATCHING,
                 steps=steps,
-                execution_time=0.0,
-                confidence_score=0.3
+                execution_time=time.time() - start_time,
+                confidence_score=0.2
             )
             
         except Exception as e:
+            self.logger.error(f"Enhanced pattern matching failed for {theorem.id}: {e}")
             return ProofResult(
                 theorem_id=theorem.id,
                 status=ProofStatus.FAILED,
                 method=ProofMethod.PATTERN_MATCHING,
                 steps=steps,
-                execution_time=0.0,
+                execution_time=time.time() - start_time,
                 confidence_score=0.0,
                 error_message=str(e)
             )

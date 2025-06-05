@@ -26,6 +26,10 @@ from validation.formula_tester import FormulaValidator, ValidationConfig
 class TheoremType(Enum):
     """Classification of different theorem types."""
     ALGEBRAIC_IDENTITY = "algebraic_identity"
+    TRIGONOMETRIC = "trigonometric"
+    LOGARITHMIC = "logarithmic"
+    EXPONENTIAL = "exponential"
+    CALCULUS = "calculus"
     FUNCTIONAL_EQUATION = "functional_equation"
     LIMIT_CONJECTURE = "limit_conjecture"
     INEQUALITY = "inequality"
@@ -302,6 +306,10 @@ class TheoremGenerator:
         # Use hint from original hypothesis if available
         type_mapping = {
             'algebraic_identity': TheoremType.ALGEBRAIC_IDENTITY,
+            'trigonometric': TheoremType.TRIGONOMETRIC,
+            'logarithmic': TheoremType.LOGARITHMIC,
+            'exponential': TheoremType.EXPONENTIAL,
+            'calculus': TheoremType.CALCULUS,
             'functional_equation': TheoremType.FUNCTIONAL_EQUATION,
             'generalization': TheoremType.GENERALIZATION,
             'composition': TheoremType.COMPOSITION,
@@ -313,7 +321,28 @@ class TheoremGenerator:
         if hint_type in type_mapping:
             return type_mapping[hint_type]
         
-        # Fallback classification based on content
+        # Content-based classification
+        expr_str = str(expression).lower()
+        statement_lower = statement.lower()
+        
+        # Check for trigonometric functions
+        trig_functions = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'asin', 'acos', 'atan']
+        if any(func in expr_str for func in trig_functions):
+            return TheoremType.TRIGONOMETRIC
+        
+        # Check for logarithmic/exponential functions
+        if any(func in expr_str for func in ['log', 'ln', 'exp']):
+            if 'exp' in expr_str or 'e**' in expr_str:
+                return TheoremType.EXPONENTIAL
+            else:
+                return TheoremType.LOGARITHMIC
+        
+        # Check for calculus operations
+        calculus_keywords = ['diff', 'integrate', 'derivative', 'integral', 'limit']
+        if any(keyword in statement_lower for keyword in calculus_keywords):
+            return TheoremType.CALCULUS
+        
+        # Check for specific theorem types
         if isinstance(expression, sp.Eq):
             # Check if it's a functional equation
             if any('f(' in str(side) for side in [expression.lhs, expression.rhs]):
@@ -326,7 +355,7 @@ class TheoremGenerator:
             return TheoremType.INEQUALITY
         
         # Check for limits
-        if 'limit' in statement.lower() or 'lim' in statement.lower():
+        if 'limit' in statement_lower or 'lim' in statement_lower:
             return TheoremType.LIMIT_CONJECTURE
         
         # Default to algebraic identity
@@ -384,6 +413,18 @@ class TheoremGenerator:
                     return f"For any real numbers {', '.join(sorted(theorem.symbols))}, {expr.lhs} equals {expr.rhs}"
                 else:
                     return f"The expression {expr} represents an algebraic identity"
+            
+            elif theorem_type == TheoremType.TRIGONOMETRIC:
+                return f"This trigonometric identity states that {expr}"
+            
+            elif theorem_type == TheoremType.LOGARITHMIC:
+                return f"This logarithmic relationship shows that {expr}"
+            
+            elif theorem_type == TheoremType.EXPONENTIAL:
+                return f"This exponential relationship demonstrates that {expr}"
+            
+            elif theorem_type == TheoremType.CALCULUS:
+                return f"This calculus theorem establishes that {expr}"
             
             elif theorem_type == TheoremType.FUNCTIONAL_EQUATION:
                 return f"There exists a functional relationship defined by {expr}"

@@ -16,6 +16,7 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -43,7 +44,6 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-cover/
 
 # Translations
 *.mo
@@ -53,6 +53,7 @@ cover/
 *.log
 local_settings.py
 db.sqlite3
+db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -77,8 +78,15 @@ ipython_config.py
 # pyenv
 .python-version
 
-# celery beat schedule file
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
 celerybeat-schedule
+celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
@@ -107,42 +115,24 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Pyre type checker
+.pyre/
 
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Project-specific
+# Project specific
 cache/
-plans/
-*.tmp
-temp/
-temporary/
+*.pkl
+outputs/*.json
 logs/
-.temp/
+temp/
+.DS_Store
 
-# MathBot specific
-mathbot.log*
-validation_test_report.json
-results/temp/
-outputs/temp/
+# Plans directory (internal development)
+plans/
 
-# Documentation summaries (development notes, not for version control)
-docs/summaries/
-docs/development/
-*_SUMMARY.md
-*_NOTES.md
+# Implementation summaries (not tracked)
+docs/summaries/PHASE_5A_SUMMARY.md
+docs/summaries/PHASE_5B_SUMMARY.md
+docs/summaries/PHASE_5C_SUMMARY.md
 
 # Test artifacts
 .pytest_cache/
@@ -152,9 +142,6 @@ htmlcov/
 # Local configuration
 local_config.json
 .env.local
-
-# pipenv
-Pipfile.lock
 
 # Poetry
 poetry.lock 

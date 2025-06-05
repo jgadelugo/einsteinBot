@@ -309,6 +309,12 @@ class TestValidationExecution:
 class TestReportGeneration:
     """Test validation report generation."""
     
+    @pytest.fixture
+    def runner(self):
+        """Create test runner for report generation tests."""
+        config = ValidationConfig(num_random_tests=2)
+        return TestRunner(config)
+    
     def test_generate_report_basic(self):
         """Test basic report generation."""
         config = ValidationConfig(num_random_tests=5, random_seed=42)

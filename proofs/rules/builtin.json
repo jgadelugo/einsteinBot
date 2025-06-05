@@ -1,0 +1,210 @@
+{
+  "algebraic_rules": [
+    {
+      "id": "square_of_sum",
+      "name": "Square of Sum",
+      "rule_type": "algebraic",
+      "pattern": "(a + b)**2",
+      "replacement": "a**2 + 2*a*b + b**2",
+      "conditions": [],
+      "justification": "Binomial expansion formula: (a + b)² = a² + 2ab + b²",
+      "priority": 4,
+      "bidirectional": true
+    },
+    {
+      "id": "difference_of_squares",
+      "name": "Difference of Squares",
+      "rule_type": "algebraic",
+      "pattern": "a**2 - b**2",
+      "replacement": "(a + b)*(a - b)",
+      "conditions": [],
+      "justification": "Factorization of difference of squares: a² - b² = (a + b)(a - b)",
+      "priority": 4,
+      "bidirectional": true
+    },
+    {
+      "id": "perfect_square_trinomial_positive",
+      "name": "Perfect Square Trinomial (Positive)",
+      "rule_type": "algebraic", 
+      "pattern": "a**2 + 2*a*b + b**2",
+      "replacement": "(a + b)**2",
+      "conditions": [],
+      "justification": "Recognition of perfect square trinomial: a² + 2ab + b² = (a + b)²",
+      "priority": 3,
+      "bidirectional": true
+    },
+    {
+      "id": "distributive_property",
+      "name": "Distributive Property",
+      "rule_type": "algebraic",
+      "pattern": "a*(b + c)",
+      "replacement": "a*b + a*c",
+      "conditions": [],
+      "justification": "Distributive property of multiplication over addition: a(b + c) = ab + ac",
+      "priority": 5,
+      "bidirectional": true
+    },
+    {
+      "id": "additive_identity",
+      "name": "Additive Identity",
+      "rule_type": "algebraic",
+      "pattern": "a + 0",
+      "replacement": "a",
+      "conditions": [],
+      "justification": "Additive identity property: a + 0 = a",
+      "priority": 5,
+      "bidirectional": true
+    },
+    {
+      "id": "multiplicative_identity",
+      "name": "Multiplicative Identity",
+      "rule_type": "algebraic",
+      "pattern": "a*1",
+      "replacement": "a",
+      "conditions": [],
+      "justification": "Multiplicative identity property: a × 1 = a",
+      "priority": 5,
+      "bidirectional": true
+    }
+  ],
+  "trigonometric_rules": [
+    {
+      "id": "pythagorean_identity",
+      "name": "Pythagorean Identity",
+      "rule_type": "trigonometric",
+      "pattern": "sin(x)**2 + cos(x)**2",
+      "replacement": "1",
+      "conditions": [],
+      "justification": "Fundamental Pythagorean identity: sin²(x) + cos²(x) = 1",
+      "priority": 5,
+      "bidirectional": false
+    },
+    {
+      "id": "double_angle_sine",
+      "name": "Double Angle Sine",
+      "rule_type": "trigonometric",
+      "pattern": "sin(2*x)",
+      "replacement": "2*sin(x)*cos(x)",
+      "conditions": [],
+      "justification": "Double angle formula for sine: sin(2x) = 2sin(x)cos(x)",
+      "priority": 3,
+      "bidirectional": true
+    },
+    {
+      "id": "tangent_identity",
+      "name": "Tangent Identity",
+      "rule_type": "trigonometric",
+      "pattern": "tan(x)",
+      "replacement": "sin(x)/cos(x)",
+      "conditions": ["cos(x) != 0"],
+      "justification": "Definition of tangent: tan(x) = sin(x)/cos(x)",
+      "priority": 4,
+      "bidirectional": true
+    }
+  ],
+  "logarithmic_rules": [
+    {
+      "id": "logarithm_product",
+      "name": "Logarithm Product Rule",
+      "rule_type": "logarithmic",
+      "pattern": "log(a*b)",
+      "replacement": "log(a) + log(b)",
+      "conditions": ["a > 0", "b > 0"],
+      "justification": "Logarithm product rule: log(ab) = log(a) + log(b)",
+      "priority": 4,
+      "bidirectional": true
+    },
+    {
+      "id": "logarithm_quotient",
+      "name": "Logarithm Quotient Rule",
+      "rule_type": "logarithmic",
+      "pattern": "log(a/b)",
+      "replacement": "log(a) - log(b)",
+      "conditions": ["a > 0", "b > 0"],
+      "justification": "Logarithm quotient rule: log(a/b) = log(a) - log(b)",
+      "priority": 4,
+      "bidirectional": true
+    },
+    {
+      "id": "logarithm_power",
+      "name": "Logarithm Power Rule",
+      "rule_type": "logarithmic",
+      "pattern": "log(a**n)",
+      "replacement": "n*log(a)",
+      "conditions": ["a > 0"],
+      "justification": "Logarithm power rule: log(aⁿ) = n·log(a)",
+      "priority": 4,
+      "bidirectional": true
+    }
+  ],
+  "exponential_rules": [
+    {
+      "id": "exponential_product",
+      "name": "Exponential Product Rule",
+      "rule_type": "exponential",
+      "pattern": "a**m * a**n",
+      "replacement": "a**(m + n)",
+      "conditions": [],
+      "justification": "Exponential product rule: aᵐ · aⁿ = aᵐ⁺ⁿ",
+      "priority": 4,
+      "bidirectional": true
+    },
+    {
+      "id": "exponential_quotient",
+      "name": "Exponential Quotient Rule",
+      "rule_type": "exponential",
+      "pattern": "a**m / a**n",
+      "replacement": "a**(m - n)",
+      "conditions": ["a != 0"],
+      "justification": "Exponential quotient rule: aᵐ / aⁿ = aᵐ⁻ⁿ",
+      "priority": 4,
+      "bidirectional": true
+    },
+    {
+      "id": "exponential_power",
+      "name": "Exponential Power Rule", 
+      "rule_type": "exponential",
+      "pattern": "(a**m)**n",
+      "replacement": "a**(m*n)",
+      "conditions": [],
+      "justification": "Exponential power rule: (aᵐ)ⁿ = aᵐⁿ",
+      "priority": 4,
+      "bidirectional": true
+    }
+  ],
+  "calculus_rules": [
+    {
+      "id": "power_rule_derivative",
+      "name": "Power Rule (Derivative)",
+      "rule_type": "calculus",
+      "pattern": "Derivative(x**n, x)",
+      "replacement": "n*x**(n-1)",
+      "conditions": [],
+      "justification": "Power rule for derivatives: d/dx[xⁿ] = n·xⁿ⁻¹",
+      "priority": 4,
+      "bidirectional": false
+    },
+    {
+      "id": "constant_rule_derivative",
+      "name": "Constant Rule (Derivative)",
+      "rule_type": "calculus",
+      "pattern": "Derivative(c, x)",
+      "replacement": "0",
+      "conditions": [],
+      "justification": "Constant rule for derivatives: d/dx[c] = 0",
+      "priority": 5,
+      "bidirectional": false
+    },
+    {
+      "id": "sum_rule_derivative",
+      "name": "Sum Rule (Derivative)",
+      "rule_type": "calculus",
+      "pattern": "Derivative(f + g, x)",
+      "replacement": "Derivative(f, x) + Derivative(g, x)",
+      "conditions": [],
+      "justification": "Sum rule for derivatives: d/dx[f + g] = f' + g'",
+      "priority": 4,
+      "bidirectional": true
+    }
+  ]
+} 
