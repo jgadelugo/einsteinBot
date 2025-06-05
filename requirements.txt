@@ -26,6 +26,13 @@ python-dotenv==1.0.0
 # Optional: For future graph operations (keeping for consistency with plan)
 networkx==3.2.1
 
+# Phase 6: Interactive UI Dependencies
+streamlit>=1.28.0
+plotly>=5.17.0
+pyvis>=0.3.2
+pydantic>=2.4.0
+pandas>=2.1.0
+
 # Development tools
 black==23.12.1
 isort==5.13.2

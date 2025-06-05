@@ -502,6 +502,28 @@ Examples:
         help="Path to proof engine configuration file"
     )
 
+    # Serve UI command (Phase 6)
+    ui_parser = subparsers.add_parser(
+        "serve-ui",
+        help="Launch the interactive web interface (Phase 6)"
+    )
+    ui_parser.add_argument(
+        "--port",
+        type=int,
+        default=8501,
+        help="Port for the web interface (default: 8501)"
+    )
+    ui_parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable debug mode with auto-reload"
+    )
+    ui_parser.add_argument(
+        "--open-browser",
+        action="store_true",
+        help="Automatically open browser after starting"
+    )
+
     # Global options
     parser.add_argument(
         "--log-level", 
@@ -516,6 +538,58 @@ Examples:
     )
     
     return parser
+
+
+def serve_ui(port: int = 8501, debug: bool = False, open_browser: bool = False) -> None:
+    """
+    Launch the MathBot UI interface.
+    
+    Args:
+        port: Port number for the Streamlit server
+        debug: Enable debug mode with auto-reload
+        open_browser: Automatically open browser after starting
+    """
+    import subprocess
+    import os
+    
+    logger.info(f"Starting MathBot UI on port {port}")
+    
+    # Path to the UI application
+    ui_path = Path(__file__).parent / "ui" / "app.py"
+    
+    if not ui_path.exists():
+        logger.error(f"UI application not found at {ui_path}")
+        sys.exit(1)
+    
+    # Build Streamlit command
+    cmd = [
+        "streamlit", "run", str(ui_path), 
+        "--server.port", str(port),
+        "--server.address", "localhost"
+    ]
+    
+    if debug:
+        cmd.extend(["--server.runOnSave", "true"])
+    
+    if not open_browser:
+        cmd.extend(["--server.headless", "true"])
+    
+    try:
+        # Check if streamlit is available
+        subprocess.run(["streamlit", "--version"], capture_output=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        logger.error("Streamlit is not installed. Please run: pip install streamlit>=1.28.0")
+        sys.exit(1)
+    
+    try:
+        logger.info(f"Launching UI at http://localhost:{port}")
+        logger.info("Press Ctrl+C to stop the server")
+        subprocess.run(cmd)
+    except KeyboardInterrupt:
+        logger.info("UI server stopped")
+    except Exception as e:
+        logger.error(f"Failed to start UI server: {e}")
+        sys.exit(1)
 
 
 def main():
@@ -1043,6 +1117,14 @@ def main():
                 print(f"Attempted proofs for {len(theorems)} theorems")
                 print(f"Successfully proved {successful_proofs} theorems ({successful_proofs/len(theorems):.1%})")
                 print(f"Proof results saved to: {proof_output_path}")
+        
+        elif args.command == "serve-ui":
+            # Launch the interactive web interface (Phase 6)
+            serve_ui(
+                port=args.port,
+                debug=args.debug,
+                open_browser=args.open_browser
+            )
     
     except Exception as e:
         logger.error(f"Pipeline execution failed: {e}")

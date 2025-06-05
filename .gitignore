@@ -129,10 +129,10 @@ temp/
 # Plans directory (internal development)
 plans/
 
-# Implementation summaries (not tracked)
-docs/summaries/PHASE_5A_SUMMARY.md
-docs/summaries/PHASE_5B_SUMMARY.md
-docs/summaries/PHASE_5C_SUMMARY.md
+# Implementation summaries and internal docs (not tracked)
+docs/summaries/
+docs/APP_DESCRIPTION.md
+docs/FUTURE_USE_CASES.md
 
 # Test artifacts
 .pytest_cache/
