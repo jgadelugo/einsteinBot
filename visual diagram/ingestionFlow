@@ -1,0 +1,35 @@
+graph TD
+    A["📄 Input Sources"] --> B["🔍 Parser Module"]
+    A1["PDF Files"] --> B
+    A2["LaTeX Files"] --> B
+    
+    B --> C["📝 Text Extraction"]
+    B --> D["🧮 Formula Detection"]
+    
+    C --> E["📋 Text Blocks"]
+    D --> F["🔢 Raw Formulas"]
+    
+    F --> G["🧹 Formula Extractor"]
+    G --> H["📊 Confidence Scoring"]
+    G --> I["🎯 Pattern Matching"]
+    
+    H --> J["✨ Cleaned Expressions"]
+    I --> J
+    
+    J --> K["🔧 Symbol Cleaner"]
+    K --> L["🌐 Unicode Normalization"]
+    K --> M["🐍 SymPy Conversion"]
+    
+    E --> N["📦 Final Output"]
+    L --> N
+    M --> N
+    
+    N --> O["💾 Structured Data"]
+    O --> P["📈 Statistics & Reports"]
+    O --> Q["🔗 Knowledge Graph Ready"]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style G fill:#fff3e0
+    style K fill:#e8f5e8
+    style N fill:#fff8e1

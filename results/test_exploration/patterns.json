@@ -1,0 +1,9 @@
+{
+  "discovery_metadata": {
+    "total_clusters": 0,
+    "similarity_threshold": 0.7,
+    "min_cluster_size": 2,
+    "discovery_time": 1749081879.712279
+  },
+  "clusters": []
+}

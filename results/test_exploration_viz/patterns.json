@@ -1,0 +1,92 @@
+{
+  "discovery_metadata": {
+    "total_clusters": 2,
+    "similarity_threshold": 0.5,
+    "min_cluster_size": 2,
+    "discovery_time": 1749081900.249866
+  },
+  "clusters": [
+    {
+      "cluster_id": 0,
+      "formulas": [
+        "a**2 + b**2",
+        "sqrt(a**2 + b**2)",
+        "(a + b)**2"
+      ],
+      "cluster_center": "a**2 + b**2",
+      "common_patterns": {
+        "common_symbols": [
+          "b",
+          "a"
+        ],
+        "common_operations": [
+          "Pow",
+          "Integer",
+          "Add",
+          "Symbol"
+        ],
+        "common_functions": [],
+        "common_symmetries": [],
+        "complexity_range": [
+          2,
+          5
+        ],
+        "depth_range": [
+          3,
+          4
+        ]
+      },
+      "topic_tags": [],
+      "confidence_score": 0.5222222222222223,
+      "metadata": {
+        "avg_complexity": 3.3333333333333335,
+        "avg_depth": 3.3333333333333335,
+        "total_unique_symbols": 2,
+        "creation_time": 1749081900.249727
+      }
+    },
+    {
+      "cluster_id": 1,
+      "formulas": [
+        "exp(-x**2/2)",
+        "1/sqrt(2*pi) * exp(-x**2/2)"
+      ],
+      "cluster_center": "exp(-x**2/2)",
+      "common_patterns": {
+        "common_symbols": [
+          "x"
+        ],
+        "common_operations": [
+          "Rational",
+          "exp",
+          "Integer",
+          "Pow",
+          "Symbol",
+          "Mul"
+        ],
+        "common_functions": [
+          "exp"
+        ],
+        "common_symmetries": [
+          "even"
+        ],
+        "complexity_range": [
+          4,
+          10
+        ],
+        "depth_range": [
+          4,
+          5
+        ]
+      },
+      "topic_tags": [],
+      "confidence_score": 0.5775,
+      "metadata": {
+        "avg_complexity": 7.0,
+        "avg_depth": 4.5,
+        "total_unique_symbols": 1,
+        "creation_time": 1749081900.2497642
+      }
+    }
+  ]
+}

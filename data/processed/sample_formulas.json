@@ -1,0 +1,94 @@
+{
+  "source_document": "mathematics_textbook_sample.pdf",
+  "extraction_metadata": {
+    "extraction_mode": "both",
+    "pages_processed": 10,
+    "extraction_date": "2024-01-15"
+  },
+  "formulas": [
+    "x**2 + 2*x + 1",
+    "sin(x)**2 + cos(x)**2",
+    "a**2 + b**2",
+    "pi * r**2",
+    "E = m*c**2",
+    "sqrt(a**2 + b**2)",
+    "exp(-x**2/2)",
+    "log(x*y)",
+    "n! / (k! * (n-k)!)",
+    "1/sqrt(2*pi) * exp(-x**2/2)"
+  ],
+  "detailed_formulas": [
+    {
+      "expression": "(a + b)**2",
+      "metadata": {
+        "topic": "algebra",
+        "type": "binomial_expansion",
+        "page": 15
+      },
+      "known_identity": "a**2 + 2*a*b + b**2"
+    },
+    {
+      "expression": "d/dx[x**n]",
+      "metadata": {
+        "topic": "calculus",
+        "type": "derivative",
+        "page": 42
+      },
+      "known_identity": "n*x**(n-1)"
+    },
+    {
+      "expression": "sin(2*x)",
+      "metadata": {
+        "topic": "trigonometry", 
+        "type": "double_angle",
+        "page": 28
+      },
+      "known_identity": "2*sin(x)*cos(x)"
+    },
+    {
+      "expression": "e**(i*pi)",
+      "metadata": {
+        "topic": "complex_analysis",
+        "type": "euler_identity",
+        "page": 67
+      },
+      "known_identity": "-1"
+    },
+    {
+      "expression": "lim(x->0) sin(x)/x",
+      "metadata": {
+        "topic": "limits",
+        "type": "standard_limit",
+        "page": 35
+      },
+      "expected_value": "1"
+    }
+  ],
+  "cleaned_formulas": {
+    "unicode_normalized": [
+      "α + β = γ",
+      "∫ f(x) dx",
+      "∑(i=1 to n) i²",
+      "∂f/∂x",
+      "θ ∈ [0, 2π]"
+    ],
+    "sympy_compatible": [
+      "alpha + beta",
+      "integrate(f(x), x)",
+      "Sum(i**2, (i, 1, n))",
+      "diff(f(x), x)",
+      "theta"
+    ]
+  },
+  "formula_statistics": {
+    "total_formulas_extracted": 25,
+    "inline_formulas": 15,
+    "block_formulas": 10,
+    "unique_symbols": ["x", "y", "a", "b", "c", "n", "pi", "e", "theta", "alpha", "beta"],
+    "complexity_distribution": {
+      "simple": 12,
+      "moderate": 8,
+      "complex": 5
+    }
+  }
+} 

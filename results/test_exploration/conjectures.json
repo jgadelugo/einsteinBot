@@ -1,0 +1,941 @@
+{
+  "generation_metadata": {
+    "total_hypotheses": 26,
+    "status_distribution": {
+      "generated": 0,
+      "validated": 26,
+      "promising": 0,
+      "rejected": 0,
+      "error": 0
+    },
+    "type_distribution": {
+      "algebraic_identity": 1,
+      "functional_equation": 5,
+      "generalization": 4,
+      "composition": 5,
+      "transformation": 5,
+      "limit_conjecture": 5,
+      "series_expansion": 1
+    },
+    "generation_time": 1749081882.8819368,
+    "validation_config": {
+      "num_tests": 50,
+      "tolerance": 1e-08
+    }
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "ratio_-3678519984645621767",
+      "hypothesis_type": "algebraic_identity",
+      "status": "validated",
+      "formula": "(exp(-x**2/2)) / (1/sqrt(2*pi) * exp(-x**2/2))",
+      "description": "Conjecture: (exp(-x**2/2)) / (1/sqrt(2*pi) * exp(-x**2/2)) = sqrt(2)*sqrt(pi)",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "exp(-x**2/2)",
+        "1/sqrt(2*pi) * exp(-x**2/2)"
+      ],
+      "transformation_lineage": [
+        "division",
+        "simplification"
+      ],
+      "mathematical_context": {
+        "symbols": [
+          "x"
+        ],
+        "result": "sqrt(2)*sqrt(pi)"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.008154869079589844
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "func_eq_8802572077946373621",
+      "hypothesis_type": "functional_equation",
+      "status": "validated",
+      "formula": "f(2*x) = 4*x**2 + 4*x + 1",
+      "description": "Functional equation based on x**2 + 2*x + 1",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "substitution",
+        "functional_transformation"
+      ],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(2*x)",
+        "variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x",
+          "f"
+        ],
+        "validation_time": 0.04753589630126953
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "func_eq_6154701749128813294",
+      "hypothesis_type": "functional_equation",
+      "status": "validated",
+      "formula": "f(x/2) = x**2/4 + x + 1",
+      "description": "Functional equation based on x**2 + 2*x + 1",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "substitution",
+        "functional_transformation"
+      ],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(x/2)",
+        "variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x",
+          "f"
+        ],
+        "validation_time": 0.043148040771484375
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "func_eq_2290989162632253549",
+      "hypothesis_type": "functional_equation",
+      "status": "validated",
+      "formula": "f(-x) = x**2 - 2*x + 1",
+      "description": "Functional equation based on x**2 + 2*x + 1",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "substitution",
+        "functional_transformation"
+      ],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(-x)",
+        "variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x",
+          "f"
+        ],
+        "validation_time": 0.09572887420654297
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "func_eq_-1123972599930510653",
+      "hypothesis_type": "functional_equation",
+      "status": "validated",
+      "formula": "f(x + 1) = 2*x + (x + 1)**2 + 3",
+      "description": "Functional equation based on x**2 + 2*x + 1",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "substitution",
+        "functional_transformation"
+      ],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(x + 1)",
+        "variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "x",
+          "f"
+        ],
+        "validation_time": 0.0579068660736084
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "func_eq_-5437949484684526654",
+      "hypothesis_type": "functional_equation",
+      "status": "validated",
+      "formula": "f(2*x) = sin(2*x)**2 + cos(2*x)**2",
+      "description": "Functional equation based on sin(x)**2 + cos(x)**2",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "sin(x)**2 + cos(x)**2"
+      ],
+      "transformation_lineage": [
+        "substitution",
+        "functional_transformation"
+      ],
+      "mathematical_context": {
+        "original_formula": "sin(x)**2 + cos(x)**2",
+        "transformation": "f(2*x)",
+        "variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x",
+          "f"
+        ],
+        "validation_time": 0.049592018127441406
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "poly_gen_-5557071085342287625",
+      "hypothesis_type": "generalization",
+      "status": "validated",
+      "formula": "a + x**2 + 2*x + 1",
+      "description": "Polynomial generalization of x**2 + 2*x + 1 with parameter a",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "parameter_addition",
+        "polynomial_extension"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "parameter": "a",
+        "type": "polynomial"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "a",
+          "x"
+        ],
+        "validation_time": 0.012765884399414062
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "trig_gen_-5711637493256744623",
+      "hypothesis_type": "generalization",
+      "status": "validated",
+      "formula": "A**2*sin(phi + x)**2 + A**2*cos(phi + x)**2",
+      "description": "Trigonometric generalization with amplitude A and phase \u03c6",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "sin(x)**2 + cos(x)**2"
+      ],
+      "transformation_lineage": [
+        "amplitude_scaling",
+        "phase_shift"
+      ],
+      "mathematical_context": {
+        "original": "sin(x)**2 + cos(x)**2",
+        "parameters": [
+          "A",
+          "phi"
+        ],
+        "type": "trigonometric"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x",
+          "A",
+          "phi"
+        ],
+        "validation_time": 0.07086181640625
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "poly_gen_685902054904407322",
+      "hypothesis_type": "generalization",
+      "status": "validated",
+      "formula": "a**2 + a + b**2",
+      "description": "Polynomial generalization of a**2 + b**2 with parameter a",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "a**2 + b**2"
+      ],
+      "transformation_lineage": [
+        "parameter_addition",
+        "polynomial_extension"
+      ],
+      "mathematical_context": {
+        "original": "a**2 + b**2",
+        "parameter": "a",
+        "type": "polynomial"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "a",
+          "b"
+        ],
+        "validation_time": 0.010488271713256836
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "poly_gen_7341442297555738884",
+      "hypothesis_type": "generalization",
+      "status": "validated",
+      "formula": "a + pi*r**2",
+      "description": "Polynomial generalization of pi * r**2 with parameter a",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "pi * r**2"
+      ],
+      "transformation_lineage": [
+        "parameter_addition",
+        "polynomial_extension"
+      ],
+      "mathematical_context": {
+        "original": "pi * r**2",
+        "parameter": "a",
+        "type": "polynomial"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "a",
+          "r"
+        ],
+        "validation_time": 0.012157917022705078
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "comp_-8184925802630624381",
+      "hypothesis_type": "composition",
+      "status": "validated",
+      "formula": "(sin(x)**2 + cos(x)**2)**2 + 2*sin(x)**2 + 2*cos(x)**2 + 1",
+      "description": "Composition: f(g(x)) where f = x**2 + 2*x + 1, g = sin(x)**2 + cos(x)**2",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1",
+        "sin(x)**2 + cos(x)**2"
+      ],
+      "transformation_lineage": [
+        "function_composition"
+      ],
+      "mathematical_context": {
+        "outer_function": "x**2 + 2*x + 1",
+        "inner_function": "sin(x)**2 + cos(x)**2",
+        "composition_variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.04116415977478027
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "prod_-8184925802630624381",
+      "hypothesis_type": "composition",
+      "status": "validated",
+      "formula": "x**2 + 2*x + 1",
+      "description": "Product composition: (x**2 + 2*x + 1) * (sin(x)**2 + cos(x)**2)",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1",
+        "sin(x)**2 + cos(x)**2"
+      ],
+      "transformation_lineage": [
+        "multiplication",
+        "simplification"
+      ],
+      "mathematical_context": {
+        "operation": "product",
+        "operands": [
+          "x**2 + 2*x + 1",
+          "sin(x)**2 + cos(x)**2"
+        ]
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.009743213653564453
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "comp_6433352155479032843",
+      "hypothesis_type": "composition",
+      "status": "validated",
+      "formula": "2*a**2 + 2*b**2 + (a**2 + b**2)**2 + 1",
+      "description": "Composition: f(g(x)) where f = x**2 + 2*x + 1, g = a**2 + b**2",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1",
+        "a**2 + b**2"
+      ],
+      "transformation_lineage": [
+        "function_composition"
+      ],
+      "mathematical_context": {
+        "outer_function": "x**2 + 2*x + 1",
+        "inner_function": "a**2 + b**2",
+        "composition_variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "a",
+          "b"
+        ],
+        "validation_time": 0.024945735931396484
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "prod_6433352155479032843",
+      "hypothesis_type": "composition",
+      "status": "validated",
+      "formula": "(a**2 + b**2)*(x**2 + 2*x + 1)",
+      "description": "Product composition: (x**2 + 2*x + 1) * (a**2 + b**2)",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1",
+        "a**2 + b**2"
+      ],
+      "transformation_lineage": [
+        "multiplication",
+        "simplification"
+      ],
+      "mathematical_context": {
+        "operation": "product",
+        "operands": [
+          "x**2 + 2*x + 1",
+          "a**2 + b**2"
+        ]
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "a",
+          "b",
+          "x"
+        ],
+        "validation_time": 0.025256872177124023
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "comp_-5381901828069465570",
+      "hypothesis_type": "composition",
+      "status": "validated",
+      "formula": "pi**2*r**4 + 2*pi*r**2 + 1",
+      "description": "Composition: f(g(x)) where f = x**2 + 2*x + 1, g = pi * r**2",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1",
+        "pi * r**2"
+      ],
+      "transformation_lineage": [
+        "function_composition"
+      ],
+      "mathematical_context": {
+        "outer_function": "x**2 + 2*x + 1",
+        "inner_function": "pi * r**2",
+        "composition_variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "r"
+        ],
+        "validation_time": 0.019902944564819336
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "trans_derivative_-5557071085342287625",
+      "hypothesis_type": "transformation",
+      "status": "validated",
+      "formula": "2*x + 2",
+      "description": "Transformation: d/dx[x**2 + 2*x + 1]",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "derivative"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "transformation_type": "derivative",
+        "operation": "d/dx[x**2 + 2*x + 1]"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.007971048355102539
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "trans_integral_-5557071085342287625",
+      "hypothesis_type": "transformation",
+      "status": "validated",
+      "formula": "x**3/3 + x**2 + x",
+      "description": "Transformation: \u222b x**2 + 2*x + 1 dx",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "integral"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "transformation_type": "integral",
+        "operation": "\u222b x**2 + 2*x + 1 dx"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.016314268112182617
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "trans_factorization_-5557071085342287625",
+      "hypothesis_type": "transformation",
+      "status": "validated",
+      "formula": "(x + 1)**2",
+      "description": "Transformation: factor(x**2 + 2*x + 1)",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "factorization"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "transformation_type": "factorization",
+        "operation": "factor(x**2 + 2*x + 1)"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.008816003799438477
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "trans_derivative_-5711637493256744623",
+      "hypothesis_type": "transformation",
+      "status": "validated",
+      "formula": "0",
+      "description": "Transformation: d/dx[sin(x)**2 + cos(x)**2]",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "sin(x)**2 + cos(x)**2"
+      ],
+      "transformation_lineage": [
+        "derivative"
+      ],
+      "mathematical_context": {
+        "original": "sin(x)**2 + cos(x)**2",
+        "transformation_type": "derivative",
+        "operation": "d/dx[sin(x)**2 + cos(x)**2]"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.0003478527069091797
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "trans_integral_-5711637493256744623",
+      "hypothesis_type": "transformation",
+      "status": "validated",
+      "formula": "x",
+      "description": "Transformation: \u222b sin(x)**2 + cos(x)**2 dx",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "sin(x)**2 + cos(x)**2"
+      ],
+      "transformation_lineage": [
+        "integral"
+      ],
+      "mathematical_context": {
+        "original": "sin(x)**2 + cos(x)**2",
+        "transformation_type": "integral",
+        "operation": "\u222b sin(x)**2 + cos(x)**2 dx"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.0007660388946533203
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "limit_0_-5557071085342287625",
+      "hypothesis_type": "limit_conjecture",
+      "status": "validated",
+      "formula": "limit(x**2 + 2*x + 1, x, 0) = 1",
+      "description": "Limit of x**2 + 2*x + 1 as x approaches 0",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "limit_evaluation"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "variable": "x",
+        "limit_point": "0",
+        "result": "1"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.026839017868041992
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "limit_1_-5557071085342287625",
+      "hypothesis_type": "limit_conjecture",
+      "status": "validated",
+      "formula": "limit(x**2 + 2*x + 1, x, 1) = 4",
+      "description": "Limit of x**2 + 2*x + 1 as x approaches 1",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "limit_evaluation"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "variable": "x",
+        "limit_point": "1",
+        "result": "4"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.0008289813995361328
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "limit_-1_-5557071085342287625",
+      "hypothesis_type": "limit_conjecture",
+      "status": "validated",
+      "formula": "limit(x**2 + 2*x + 1, x, -1) = 0",
+      "description": "Limit of x**2 + 2*x + 1 as x approaches -1",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "limit_evaluation"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "variable": "x",
+        "limit_point": "-1",
+        "result": "0"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.0007832050323486328
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "limit_oo_-5557071085342287625",
+      "hypothesis_type": "limit_conjecture",
+      "status": "validated",
+      "formula": "limit(x**2 + 2*x + 1, x, oo) = oo",
+      "description": "Limit of x**2 + 2*x + 1 as x approaches oo",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "limit_evaluation"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "variable": "x",
+        "limit_point": "oo",
+        "result": "oo"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.0006289482116699219
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "limit_-oo_-5557071085342287625",
+      "hypothesis_type": "limit_conjecture",
+      "status": "validated",
+      "formula": "limit(x**2 + 2*x + 1, x, -oo) = oo",
+      "description": "Limit of x**2 + 2*x + 1 as x approaches -oo",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "x**2 + 2*x + 1"
+      ],
+      "transformation_lineage": [
+        "limit_evaluation"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "variable": "x",
+        "limit_point": "-oo",
+        "result": "oo"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.0005991458892822266
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "series_-5711637493256744623",
+      "hypothesis_type": "series_expansion",
+      "status": "validated",
+      "formula": "1",
+      "description": "Taylor series expansion of sin(x)**2 + cos(x)**2 around x=0",
+      "confidence_score": 1.0,
+      "source_formulas": [
+        "sin(x)**2 + cos(x)**2"
+      ],
+      "transformation_lineage": [
+        "taylor_expansion"
+      ],
+      "mathematical_context": {
+        "original": "sin(x)**2 + cos(x)**2",
+        "variable": "x",
+        "expansion_point": "0",
+        "terms": 4
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.0002579689025878906
+      },
+      "metadata": {},
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "detection_metadata": {
+    "total_gaps": 12,
+    "gap_types": {
+      "sparse_connection": 9,
+      "disconnected_cluster": 1,
+      "missing_variation": 1,
+      "incomplete_transformation": 1
+    },
+    "detection_time": 1749081879.905191,
+    "thresholds": {
+      "min_connection_threshold": 2,
+      "isolation_threshold": 0.1
+    }
+  },
+  "gaps": [
+    {
+      "gap_id": "sparse_a_b_Add_Integer_Pow_Symbol",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: a_b_Add_Integer_Pow_Symbol",
+      "description": "Concept 'a_b_Add_Integer_Pow_Symbol' has only 1 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.8,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "a_b_Add_Integer_Pow_Symbol"
+      ],
+      "evidence": {
+        "connection_count": 1,
+        "formulas": [
+          "a**2 + b**2",
+          "(a + b)**2"
+        ],
+        "topics": [
+          "binomial_expansion",
+          "algebra"
+        ]
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "disconnect_6_8",
+      "gap_type": "disconnected_cluster",
+      "title": "Disconnected Mathematical Domains",
+      "description": "Two clusters with related topics (set()) are not connected, suggesting missing bridging concepts.",
+      "confidence_score": 0.7,
+      "priority": 0.74,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "69529820",
+        "54004555"
+      ],
+      "evidence": {
+        "cluster1_size": 1,
+        "cluster2_size": 1,
+        "shared_topics": [],
+        "cluster1_topics": [
+          "derivative",
+          "calculus"
+        ],
+        "cluster2_topics": [
+          "limits",
+          "standard_limit"
+        ]
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_69529820",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: 69529820",
+      "description": "Concept '69529820' has only 0 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.72,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "69529820"
+      ],
+      "evidence": {
+        "connection_count": 0,
+        "formulas": [
+          "d/dx[x**n]"
+        ],
+        "topics": [
+          "derivative",
+          "calculus"
+        ]
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_e_i_Mul_Pi_Pow_Symbol",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: e_i_Mul_Pi_Pow_Symbol",
+      "description": "Concept 'e_i_Mul_Pi_Pow_Symbol' has only 0 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.72,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "e_i_Mul_Pi_Pow_Symbol"
+      ],
+      "evidence": {
+        "connection_count": 0,
+        "formulas": [
+          "e**(i*pi)"
+        ],
+        "topics": [
+          "euler_identity",
+          "complex_analysis"
+        ]
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_54004555",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: 54004555",
+      "description": "Concept '54004555' has only 0 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.72,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "54004555"
+      ],
+      "evidence": {
+        "connection_count": 0,
+        "formulas": [
+          "lim(x->0) sin(x)/x"
+        ],
+        "topics": [
+          "limits",
+          "standard_limit"
+        ]
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_r_Integer_Mul_Pi_Pow_Symbol",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: r_Integer_Mul_Pi_Pow_Symbol",
+      "description": "Concept 'r_Integer_Mul_Pi_Pow_Symbol' has only 0 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.6799999999999999,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "r_Integer_Mul_Pi_Pow_Symbol"
+      ],
+      "evidence": {
+        "connection_count": 0,
+        "formulas": [
+          "pi * r**2"
+        ],
+        "topics": []
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_-8922756",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: -8922756",
+      "description": "Concept '-8922756' has only 0 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.6799999999999999,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "-8922756"
+      ],
+      "evidence": {
+        "connection_count": 0,
+        "formulas": [
+          "E = m*c**2"
+        ],
+        "topics": []
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_a_b_Add_Half_Integer_Pow_Symbol",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: a_b_Add_Half_Integer_Pow_Symbol",
+      "description": "Concept 'a_b_Add_Half_Integer_Pow_Symbol' has only 1 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.6799999999999999,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "a_b_Add_Half_Integer_Pow_Symbol"
+      ],
+      "evidence": {
+        "connection_count": 1,
+        "formulas": [
+          "sqrt(a**2 + b**2)"
+        ],
+        "topics": []
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_x_y_Mul_Symbol_log",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: x_y_Mul_Symbol_log",
+      "description": "Concept 'x_y_Mul_Symbol_log' has only 0 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.6799999999999999,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "x_y_Mul_Symbol_log"
+      ],
+      "evidence": {
+        "connection_count": 0,
+        "formulas": [
+          "log(x*y)"
+        ],
+        "topics": []
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "sparse_-1970300",
+      "gap_type": "sparse_connection",
+      "title": "Sparsely Connected Concept: -1970300",
+      "description": "Concept '-1970300' has only 0 connections, suggesting it may be isolated or missing important relationships.",
+      "confidence_score": 0.8,
+      "priority": 0.6799999999999999,
+      "suggested_formulas": [],
+      "related_concepts": [
+        "-1970300"
+      ],
+      "evidence": {
+        "connection_count": 0,
+        "formulas": [
+          "n! / (k! * (n-k)!)"
+        ],
+        "topics": []
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "variation_a_b_Add_Integer_Pow_Symbol",
+      "gap_type": "missing_variation",
+      "title": "Missing Formula Variations: a_b_Add_Integer_Pow_Symbol",
+      "description": "Concept has 2 formulas but may be missing common variations or generalizations.",
+      "confidence_score": 0.6,
+      "priority": 0.56,
+      "suggested_formulas": [
+        "2*a + 2*b",
+        "a**3/3 + a*b**2",
+        "2*a",
+        "a**3/3 + a**2*b + a*b**2",
+        "a**2 + 2*a*b + b**2"
+      ],
+      "related_concepts": [
+        "a_b_Add_Integer_Pow_Symbol"
+      ],
+      "evidence": {
+        "existing_formulas": [
+          "a**2 + b**2",
+          "(a + b)**2"
+        ],
+        "topics": [
+          "binomial_expansion",
+          "algebra"
+        ]
+      },
+      "metadata": {}
+    },
+    {
+      "gap_id": "transform_0",
+      "gap_type": "incomplete_transformation",
+      "title": "Missing Transformation Steps",
+      "description": "Transformation from '(a + b)**2' to 'sqrt(a**2 + b**2)' may be missing intermediate steps.",
+      "confidence_score": 0.5,
+      "priority": 0.46,
+      "suggested_formulas": [
+        "a**2 + 2*a*b + b**2"
+      ],
+      "related_concepts": [],
+      "evidence": {
+        "source_formula": "(a + b)**2",
+        "target_formula": "sqrt(a**2 + b**2)",
+        "suggested_steps": [
+          "a**2 + 2*a*b + b**2"
+        ]
+      },
+      "metadata": {}
+    }
+  ]
+}
