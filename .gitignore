@@ -124,6 +124,7 @@ ehthumbs.db
 Thumbs.db
 
 # Project-specific
+cache/
 plans/
 *.tmp
 temp/
