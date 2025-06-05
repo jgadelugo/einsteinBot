@@ -457,6 +457,50 @@ Examples:
         action="store_true",
         help="Generate visualization plots"
     )
+    
+    # Generate theorems command (Phase 5A)
+    theorem_parser = subparsers.add_parser(
+        "generate-theorems",
+        help="Generate formal theorems from validated hypotheses (Phase 5A)"
+    )
+    theorem_parser.add_argument(
+        "--input",
+        required=True,
+        help="Path to hypotheses JSON file from Phase 4"
+    )
+    theorem_parser.add_argument(
+        "--output",
+        default="results/theorems.json",
+        help="Path to save generated theorems (default: results/theorems.json)"
+    )
+    theorem_parser.add_argument(
+        "--config",
+        help="Path to theorem generation configuration file"
+    )
+    theorem_parser.add_argument(
+        "--validate",
+        action="store_true",
+        help="Validate generated theorems using Phase 3 engine"
+    )
+    theorem_parser.add_argument(
+        "--stats",
+        action="store_true",
+        help="Print detailed generation statistics"
+    )
+    theorem_parser.add_argument(
+        "--prove",
+        action="store_true",
+        help="Attempt to prove generated theorems using symbolic methods (Phase 5B)"
+    )
+    theorem_parser.add_argument(
+        "--proof-output",
+        default="results/proof_results.json",
+        help="Path to save proof results (default: results/proof_results.json)"
+    )
+    theorem_parser.add_argument(
+        "--proof-config",
+        help="Path to proof engine configuration file"
+    )
 
     # Global options
     parser.add_argument(
@@ -795,6 +839,210 @@ def main():
                 print("- cluster_plot.png: Formula cluster visualization")
                 print("- similarity_matrix.png: Formula similarity heatmap")
                 print("- visualization_data.json: Raw visualization data")
+        
+        elif args.command == "generate-theorems":
+            # Import theorem generation modules
+            try:
+                from proofs.theorem_generator import TheoremGenerator
+                from validation.formula_tester import FormulaValidator
+            except ImportError as e:
+                logger.error(f"Theorem generation modules not available: {e}")
+                sys.exit(1)
+            
+            # Load hypotheses from Phase 4
+            hypotheses_path = Path(args.input)
+            if not hypotheses_path.exists():
+                logger.error(f"Hypotheses file not found: {hypotheses_path}")
+                sys.exit(1)
+            
+            try:
+                with open(hypotheses_path, 'r') as f:
+                    hypotheses_data = json.load(f)
+                hypotheses = hypotheses_data.get('hypotheses', [])
+                
+                if not hypotheses:
+                    logger.error("No hypotheses found in input file")
+                    sys.exit(1)
+                
+                print(f"Loaded {len(hypotheses)} hypotheses from {hypotheses_path}")
+            except Exception as e:
+                logger.error(f"Failed to load hypotheses: {e}")
+                sys.exit(1)
+            
+            # Load configuration if provided
+            config = {}
+            if args.config:
+                try:
+                    with open(args.config, 'r') as f:
+                        config = json.load(f)
+                    print(f"Loaded configuration from {args.config}")
+                except Exception as e:
+                    logger.warning(f"Failed to load config: {e}")
+            
+            # Initialize theorem generator
+            validation_engine = FormulaValidator() if args.validate else None
+            theorem_generator = TheoremGenerator(
+                validation_engine=validation_engine,
+                config=config
+            )
+            
+            print("\n=== Phase 5A: Theorem Generation ===")
+            print("Converting validated hypotheses to formal theorems...")
+            
+            # Generate theorems
+            theorems = theorem_generator.generate_from_hypotheses(hypotheses)
+            
+            if not theorems:
+                logger.error("No theorems generated from hypotheses")
+                sys.exit(1)
+            
+            print(f"Generated {len(theorems)} formal theorems")
+            
+            # Save theorems
+            output_path = Path(args.output)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            theorem_generator.save_theorems(theorems, output_path)
+            
+            print(f"Theorems saved to: {output_path}")
+            
+            # Display statistics
+            stats = theorem_generator.get_generation_stats()
+            print(f"\n=== Generation Statistics ===")
+            print(f"Total theorems generated: {stats['theorems_generated']}")
+            print(f"Validation passes: {stats['validation_passes']}")
+            print(f"Generation time: {stats['generation_time']:.2f}s")
+            
+            # Show theorem type distribution
+            type_distribution = theorem_generator._get_type_distribution(theorems)
+            print(f"\n=== Theorem Type Distribution ===")
+            for theorem_type, count in sorted(type_distribution.items()):
+                print(f"  {theorem_type}: {count}")
+            
+            # Show sample theorems
+            print(f"\n=== Sample Generated Theorems ===")
+            for i, theorem in enumerate(theorems[:3]):  # Show first 3 theorems
+                print(f"\nTheorem {i+1} ({theorem.id}):")
+                print(f"  Type: {theorem.theorem_type.value}")
+                print(f"  Statement: {theorem.statement}")
+                print(f"  Natural Language: {theorem.natural_language}")
+                print(f"  Source: {theorem.source_lineage.hypothesis_id}")
+                print(f"  Confidence: {theorem.source_lineage.confidence:.2f}")
+            
+            if len(theorems) > 3:
+                print(f"\n... and {len(theorems) - 3} more theorems")
+            
+            # Detailed statistics if requested
+            if args.stats:
+                print(f"\n=== Detailed Statistics ===")
+                print(f"Input hypotheses: {len(hypotheses)}")
+                print(f"Successful conversions: {len(theorems)}")
+                conversion_rate = (len(theorems) / len(hypotheses)) * 100 if hypotheses else 0
+                print(f"Conversion rate: {conversion_rate:.1f}%")
+                
+                # Symbol analysis
+                all_symbols = set()
+                for theorem in theorems:
+                    all_symbols.update(theorem.symbols)
+                print(f"Unique symbols across all theorems: {len(all_symbols)}")
+                print(f"Symbols: {sorted(list(all_symbols))}")
+                
+                # Assumption analysis
+                all_assumptions = set()
+                for theorem in theorems:
+                    all_assumptions.update(theorem.assumptions)
+                print(f"Unique assumptions: {len(all_assumptions)}")
+                
+                # Validation evidence summary
+                if args.validate:
+                    total_validation_score = sum(
+                        theorem.source_lineage.validation_score for theorem in theorems
+                    )
+                    avg_validation_score = total_validation_score / len(theorems) if theorems else 0
+                    print(f"Average validation score: {avg_validation_score:.3f}")
+            
+            print(f"\n=== Phase 5A Complete ===")
+            print(f"Successfully generated {len(theorems)} formal theorems")
+            print(f"Results saved to: {output_path}")
+            
+            # Phase 5B: Proof Attempt (if requested)
+            if args.prove:
+                try:
+                    from proofs.proof_attempt import ProofAttemptEngine
+                except ImportError as e:
+                    logger.error(f"Proof attempt modules not available: {e}")
+                    sys.exit(1)
+                
+                print(f"\n=== Phase 5B: Symbolic Proof Attempts ===")
+                print("Attempting to prove generated theorems using symbolic methods...")
+                
+                # Load proof configuration if provided
+                proof_config = {}
+                if args.proof_config:
+                    try:
+                        with open(args.proof_config, 'r') as f:
+                            proof_config = json.load(f)
+                        print(f"Loaded proof configuration from {args.proof_config}")
+                    except Exception as e:
+                        logger.warning(f"Failed to load proof config: {e}")
+                
+                # Initialize proof engine
+                proof_engine = ProofAttemptEngine(config=proof_config)
+                
+                # Attempt to prove theorems
+                proof_results = proof_engine.batch_prove_theorems(theorems)
+                
+                # Save proof results
+                proof_output_path = Path(args.proof_output)
+                proof_output_path.parent.mkdir(parents=True, exist_ok=True)
+                proof_engine.save_results(proof_results, proof_output_path)
+                
+                print(f"Proof results saved to: {proof_output_path}")
+                
+                # Display proof statistics
+                proof_stats = proof_engine.get_statistics()
+                successful_proofs = sum(1 for r in proof_results if r.is_successful())
+                
+                print(f"\n=== Proof Statistics ===")
+                print(f"Total proof attempts: {proof_stats['total_attempts']}")
+                print(f"Successfully proved: {successful_proofs}")
+                print(f"Success rate: {proof_stats['overall_success_rate']:.1%}")
+                print(f"Total proof time: {proof_stats['total_time']:.2f}s")
+                print(f"Average time per proof: {proof_stats['average_time_per_attempt']:.3f}s")
+                
+                if proof_stats['cache_hits'] > 0:
+                    print(f"Cache hits: {proof_stats['cache_hits']}")
+                
+                # Show method success rates
+                if proof_stats['method_success_rates']:
+                    print(f"\n=== Method Success Rates ===")
+                    for method, data in proof_stats['method_success_rates'].items():
+                        if data['attempts'] > 0:
+                            success_rate = data['success_rate'] * 100
+                            print(f"  {method}: {data['successes']}/{data['attempts']} ({success_rate:.1f}%)")
+                
+                # Show sample proof results
+                print(f"\n=== Sample Proof Results ===")
+                proved_results = [r for r in proof_results if r.is_successful()]
+                failed_results = [r for r in proof_results if not r.is_successful()]
+                
+                if proved_results:
+                    print(f"\nSuccessfully Proved ({len(proved_results)}):")
+                    for i, result in enumerate(proved_results[:3]):  # Show first 3
+                        print(f"  {i+1}. {result.theorem_id} - {result.method.value}")
+                        print(f"     Confidence: {result.confidence_score:.2f}, Steps: {result.get_step_count()}")
+                        print(f"     Time: {result.execution_time:.3f}s")
+                
+                if failed_results:
+                    print(f"\nFailed/Inconclusive ({len(failed_results)}):")
+                    for i, result in enumerate(failed_results[:3]):  # Show first 3
+                        print(f"  {i+1}. {result.theorem_id} - {result.status.value}")
+                        if result.error_message:
+                            print(f"     Error: {result.error_message[:100]}...")
+                
+                print(f"\n=== Phase 5B Complete ===")
+                print(f"Attempted proofs for {len(theorems)} theorems")
+                print(f"Successfully proved {successful_proofs} theorems ({successful_proofs/len(theorems):.1%})")
+                print(f"Proof results saved to: {proof_output_path}")
     
     except Exception as e:
         logger.error(f"Pipeline execution failed: {e}")

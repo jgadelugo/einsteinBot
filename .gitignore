@@ -16,6 +16,7 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -39,8 +40,10 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+*.py,cover
 .hypothesis/
 .pytest_cache/
+cover/
 
 # Translations
 *.mo
@@ -132,4 +135,25 @@ logs/
 mathbot.log*
 validation_test_report.json
 results/temp/
-outputs/temp/ 
+outputs/temp/
+
+# Documentation summaries (development notes, not for version control)
+docs/summaries/
+docs/development/
+*_SUMMARY.md
+*_NOTES.md
+
+# Test artifacts
+.pytest_cache/
+test_*.xml
+htmlcov/
+
+# Local configuration
+local_config.json
+.env.local
+
+# pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock 

@@ -1,0 +1,143 @@
+{
+  "generation_metadata": {
+    "total_hypotheses": 5,
+    "status_distribution": {
+      "validated": 5
+    },
+    "type_distribution": {
+      "algebraic_identity": 1,
+      "functional_equation": 2,
+      "generalization": 1,
+      "transformation": 1
+    }
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "test_001",
+      "hypothesis_type": "algebraic_identity",
+      "status": "validated",
+      "formula": "(x + 1)**2 = x**2 + 2*x + 1",
+      "description": "Perfect square identity",
+      "confidence_score": 1.0,
+      "source_formulas": ["(x + 1)**2"],
+      "transformation_lineage": ["expansion"],
+      "mathematical_context": {
+        "symbols": ["x"],
+        "original_formula": "(x + 1)**2"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 100,
+        "validation_time": 0.05
+      },
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 1.0
+      }
+    },
+    {
+      "hypothesis_id": "test_002",
+      "hypothesis_type": "functional_equation",
+      "status": "validated",
+      "formula": "f(2*x) = 4*x**2 + 4*x + 1",
+      "description": "Functional transformation",
+      "confidence_score": 0.95,
+      "source_formulas": ["x**2 + 2*x + 1"],
+      "transformation_lineage": ["substitution", "functional_transformation"],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(2*x)",
+        "variable": "x"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 50,
+        "validation_time": 0.03
+      },
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 0.95
+      }
+    },
+    {
+      "hypothesis_id": "test_003",
+      "hypothesis_type": "functional_equation",
+      "status": "validated",
+      "formula": "f(-x) = x**2 - 2*x + 1",
+      "description": "Negative substitution",
+      "confidence_score": 0.98,
+      "source_formulas": ["x**2 + 2*x + 1"],
+      "transformation_lineage": ["substitution"],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(-x)"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 75,
+        "validation_time": 0.04
+      },
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 0.98
+      }
+    },
+    {
+      "hypothesis_id": "test_004",
+      "hypothesis_type": "generalization",
+      "status": "validated",
+      "formula": "a*x**2 + b*x + c",
+      "description": "General quadratic form",
+      "confidence_score": 0.92,
+      "source_formulas": ["x**2 + 2*x + 1"],
+      "transformation_lineage": ["parameter_addition", "generalization"],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "parameters": ["a", "b", "c"],
+        "type": "polynomial"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 80,
+        "validation_time": 0.06
+      },
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 0.92
+      }
+    },
+    {
+      "hypothesis_id": "test_005",
+      "hypothesis_type": "transformation",
+      "status": "validated",
+      "formula": "exp(x**2 + 2*x + 1)",
+      "description": "Exponential transformation",
+      "confidence_score": 0.88,
+      "source_formulas": ["x**2 + 2*x + 1"],
+      "transformation_lineage": ["exponential_transform"],
+      "mathematical_context": {
+        "base_expression": "x**2 + 2*x + 1",
+        "transform_type": "exponential"
+      },
+      "evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "validation_time": 0.08
+      },
+      "validation_summary": {
+        "status": "PASS",
+        "pass_rate": 1.0,
+        "confidence": 0.88
+      }
+    }
+  ]
+} 

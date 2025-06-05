@@ -1,0 +1,550 @@
+{
+  "generation_metadata": {
+    "total_theorems": 13,
+    "generation_time": 0.04596424102783203,
+    "validation_passes": 13,
+    "type_distribution": {
+      "algebraic_identity": 1,
+      "functional_equation": 3,
+      "generalization": 3,
+      "composition": 3,
+      "transformation": 3
+    },
+    "generator_version": "1.0.0"
+  },
+  "theorems": [
+    {
+      "id": "THM_F535C791",
+      "statement": "\\frac{\\sqrt{2}}{\\sqrt{\\pi}}",
+      "sympy_expression": "sqrt(2)/sqrt(pi)",
+      "theorem_type": "algebraic_identity",
+      "assumptions": [],
+      "source_lineage": {
+        "original_formula": "exp(-x**2/2)",
+        "hypothesis_id": "ratio_996444262766152191",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "algebraic_identity",
+        "transformation_chain": [
+          "division",
+          "simplification"
+        ]
+      },
+      "natural_language": "The expression sqrt(2)/sqrt(pi) represents an algebraic identity",
+      "symbols": [],
+      "mathematical_context": {
+        "symbols": [
+          "x"
+        ],
+        "result": "sqrt(2)*sqrt(pi)"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 2,
+        "symbols_tested": [],
+        "validation_time": 0.0076541900634765625
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_3300A76E",
+      "statement": "\u2200x \u2208 \u211d, f{\\left(2 x \\right)} = 4 x^{2} + 4 x + 1",
+      "sympy_expression": "Eq(f(2*x), 4*x**2 + 4*x + 1)",
+      "theorem_type": "functional_equation",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "func_eq_6074467624044602585",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "functional_equation",
+        "transformation_chain": [
+          "substitution",
+          "functional_transformation"
+        ]
+      },
+      "natural_language": "There exists a functional relationship defined by Eq(f(2*x), 4*x**2 + 4*x + 1)",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(2*x)",
+        "variable": "x"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "f",
+          "x"
+        ],
+        "validation_time": 0.04681801795959473
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_0E9D218A",
+      "statement": "\u2200x \u2208 \u211d, f{\\left(\\frac{x}{2} \\right)} = \\frac{x^{2}}{4} + x + 1",
+      "sympy_expression": "Eq(f(x/2), x**2/4 + x + 1)",
+      "theorem_type": "functional_equation",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "func_eq_-6924511740476014342",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "functional_equation",
+        "transformation_chain": [
+          "substitution",
+          "functional_transformation"
+        ]
+      },
+      "natural_language": "There exists a functional relationship defined by Eq(f(x/2), x**2/4 + x + 1)",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(x/2)",
+        "variable": "x"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "f",
+          "x"
+        ],
+        "validation_time": 0.043688297271728516
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_83E30F1F",
+      "statement": "\u2200x \u2208 \u211d, f{\\left(- x \\right)} = x^{2} - 2 x + 1",
+      "sympy_expression": "Eq(f(-x), x**2 - 2*x + 1)",
+      "theorem_type": "functional_equation",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "func_eq_-4971126604951857046",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "functional_equation",
+        "transformation_chain": [
+          "substitution",
+          "functional_transformation"
+        ]
+      },
+      "natural_language": "There exists a functional relationship defined by Eq(f(-x), x**2 - 2*x + 1)",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "original_formula": "x**2 + 2*x + 1",
+        "transformation": "f(-x)",
+        "variable": "x"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "f",
+          "x"
+        ],
+        "validation_time": 0.09346508979797363
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_AB5FF9E4",
+      "statement": "\u2200a, x \u2208 \u211d, a + x^{2} + 2 x + 1",
+      "sympy_expression": "a + x**2 + 2*x + 1",
+      "theorem_type": "generalization",
+      "assumptions": [
+        "a \u2208 \u211d",
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "poly_gen_-9148640746524550210",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "generalization",
+        "transformation_chain": [
+          "parameter_addition",
+          "polynomial_extension"
+        ]
+      },
+      "natural_language": "This theorem generalizes the mathematical relationship expressed by a + x**2 + 2*x + 1",
+      "symbols": [
+        "x",
+        "a"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "parameter": "a",
+        "type": "polynomial"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "a",
+          "x"
+        ],
+        "validation_time": 0.012164831161499023
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_5754EC51",
+      "statement": "\u2200A, phi, x \u2208 \u211d, A^{2} \\sin^{2}{\\left(\\phi + x \\right)} + A^{2} \\cos^{2}{\\left(\\phi + x \\right)}",
+      "sympy_expression": "A**2*sin(phi + x)**2 + A**2*cos(phi + x)**2",
+      "theorem_type": "generalization",
+      "assumptions": [
+        "A \u2208 \u211d",
+        "phi \u2208 \u211d",
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "sin(x)**2 + cos(x)**2",
+        "hypothesis_id": "trig_gen_3886791567908719976",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "generalization",
+        "transformation_chain": [
+          "amplitude_scaling",
+          "phase_shift"
+        ]
+      },
+      "natural_language": "This theorem generalizes the mathematical relationship expressed by A**2*sin(phi + x)**2 + A**2*cos(phi + x)**2",
+      "symbols": [
+        "phi",
+        "x",
+        "A"
+      ],
+      "mathematical_context": {
+        "original": "sin(x)**2 + cos(x)**2",
+        "parameters": [
+          "A",
+          "phi"
+        ],
+        "type": "trigonometric"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "phi",
+          "A",
+          "x"
+        ],
+        "validation_time": 0.06936502456665039
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_92C3914B",
+      "statement": "\u2200a, b \u2208 \u211d, a^{2} + a + b^{2}",
+      "sympy_expression": "a**2 + a + b**2",
+      "theorem_type": "generalization",
+      "assumptions": [
+        "a \u2208 \u211d",
+        "b \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "a**2 + b**2",
+        "hypothesis_id": "poly_gen_-8529007096827897815",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "generalization",
+        "transformation_chain": [
+          "parameter_addition",
+          "polynomial_extension"
+        ]
+      },
+      "natural_language": "This theorem generalizes the mathematical relationship expressed by a**2 + a + b**2",
+      "symbols": [
+        "b",
+        "a"
+      ],
+      "mathematical_context": {
+        "original": "a**2 + b**2",
+        "parameter": "a",
+        "type": "polynomial"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "b",
+          "a"
+        ],
+        "validation_time": 0.009938955307006836
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_D1430C42",
+      "statement": "\u2200x \u2208 \u211d, \\left(\\sin^{2}{\\left(x \\right)} + \\cos^{2}{\\left(x \\right)}\\right)^{2} + 2 \\sin^{2}{\\left(x \\right)} + 2 \\cos^{2}{\\left(x \\right)} + 1",
+      "sympy_expression": "(sin(x)**2 + cos(x)**2)**2 + 2*sin(x)**2 + 2*cos(x)**2 + 1",
+      "theorem_type": "composition",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "comp_-6668759752138577358",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "composition",
+        "transformation_chain": [
+          "function_composition"
+        ]
+      },
+      "natural_language": "The composition of mathematical operations yields (sin(x)**2 + cos(x)**2)**2 + 2*sin(x)**2 + 2*cos(x)**2 + 1",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "outer_function": "x**2 + 2*x + 1",
+        "inner_function": "sin(x)**2 + cos(x)**2",
+        "composition_variable": "x"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.041580915451049805
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_AB01E218",
+      "statement": "\u2200x \u2208 \u211d, x^{2} + 2 x + 1",
+      "sympy_expression": "x**2 + 2*x + 1",
+      "theorem_type": "composition",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "prod_-6668759752138577358",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "composition",
+        "transformation_chain": [
+          "multiplication",
+          "simplification"
+        ]
+      },
+      "natural_language": "The composition of mathematical operations yields x**2 + 2*x + 1",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "operation": "product",
+        "operands": [
+          "x**2 + 2*x + 1",
+          "sin(x)**2 + cos(x)**2"
+        ]
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.008819818496704102
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_E9BC9DB9",
+      "statement": "\u2200a, b \u2208 \u211d, 2 a^{2} + 2 b^{2} + \\left(a^{2} + b^{2}\\right)^{2} + 1",
+      "sympy_expression": "2*a**2 + 2*b**2 + (a**2 + b**2)**2 + 1",
+      "theorem_type": "composition",
+      "assumptions": [
+        "a \u2208 \u211d",
+        "b \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "comp_-6397049311572704253",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "composition",
+        "transformation_chain": [
+          "function_composition"
+        ]
+      },
+      "natural_language": "The composition of mathematical operations yields 2*a**2 + 2*b**2 + (a**2 + b**2)**2 + 1",
+      "symbols": [
+        "b",
+        "a"
+      ],
+      "mathematical_context": {
+        "outer_function": "x**2 + 2*x + 1",
+        "inner_function": "a**2 + b**2",
+        "composition_variable": "x"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "b",
+          "a"
+        ],
+        "validation_time": 0.023836135864257812
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_A04CCC49",
+      "statement": "\u2200x \u2208 \u211d, 2 x + 2",
+      "sympy_expression": "2*x + 2",
+      "theorem_type": "transformation",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "trans_derivative_-9148640746524550210",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "transformation",
+        "transformation_chain": [
+          "derivative"
+        ]
+      },
+      "natural_language": "Under the given transformation, the expression becomes 2*x + 2",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "transformation_type": "derivative",
+        "operation": "d/dx[x**2 + 2*x + 1]"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.00751495361328125
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_9B62C584",
+      "statement": "\u2200x \u2208 \u211d, \\frac{x^{3}}{3} + x^{2} + x",
+      "sympy_expression": "x**3/3 + x**2 + x",
+      "theorem_type": "transformation",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "trans_integral_-9148640746524550210",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "transformation",
+        "transformation_chain": [
+          "integral"
+        ]
+      },
+      "natural_language": "Under the given transformation, the expression becomes x**3/3 + x**2 + x",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "transformation_type": "integral",
+        "operation": "\u222b x**2 + 2*x + 1 dx"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 59,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.016249895095825195
+      },
+      "metadata": {}
+    },
+    {
+      "id": "THM_413ABD0F",
+      "statement": "\u2200x \u2208 \u211d, \\left(x + 1\\right)^{2}",
+      "sympy_expression": "(x + 1)**2",
+      "theorem_type": "transformation",
+      "assumptions": [
+        "x \u2208 \u211d"
+      ],
+      "source_lineage": {
+        "original_formula": "x**2 + 2*x + 1",
+        "hypothesis_id": "trans_factorization_-9148640746524550210",
+        "confidence": 1.0,
+        "validation_score": 1.0,
+        "generation_method": "direct_conversion",
+        "source_type": "transformation",
+        "transformation_chain": [
+          "factorization"
+        ]
+      },
+      "natural_language": "Under the given transformation, the expression becomes (x + 1)**2",
+      "symbols": [
+        "x"
+      ],
+      "mathematical_context": {
+        "original": "x**2 + 2*x + 1",
+        "transformation_type": "factorization",
+        "operation": "factor(x**2 + 2*x + 1)"
+      },
+      "validation_evidence": {
+        "validation_status": "PASS",
+        "pass_rate": 1.0,
+        "total_tests": 60,
+        "symbols_tested": [
+          "x"
+        ],
+        "validation_time": 0.008418083190917969
+      },
+      "metadata": {}
+    }
+  ]
+}
