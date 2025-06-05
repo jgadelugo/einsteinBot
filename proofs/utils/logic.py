@@ -9,6 +9,7 @@ Core Components:
 - RuleType: Enumeration of mathematical rule categories
 - LogicalRule: Data structure representing individual transformation rules
 - RuleDatabase: Manager for collections of mathematical rules
+- TransformationStep: Data structure representing a single transformation step
 
 The system is designed for extensibility, mathematical soundness, and high performance.
 """
@@ -22,6 +23,43 @@ from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Any, Union, Iterator
 import sympy as sp
 from sympy.core.sympify import SympifyError
+
+
+@dataclass
+class TransformationStep:
+    """
+    Data structure representing a single transformation step in a multi-step process.
+    
+    Attributes:
+        step: Step number in the transformation sequence
+        rule: LogicalRule that was applied
+        from_expr: Expression before transformation
+        to_expr: Expression after transformation
+        justification: Mathematical justification for the step
+        metadata: Additional information about the transformation
+    """
+    step: int
+    rule: 'LogicalRule'
+    from_expr: sp.Expr
+    to_expr: sp.Expr
+    justification: str = ""
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert transformation step to dictionary representation."""
+        return {
+            'step': self.step,
+            'rule_id': self.rule.id,
+            'rule_name': self.rule.name,
+            'from_expression': str(self.from_expr),
+            'to_expression': str(self.to_expr),
+            'justification': self.justification,
+            'metadata': self.metadata
+        }
+    
+    def __str__(self) -> str:
+        """Return string representation of transformation step."""
+        return f"Step {self.step}: {self.from_expr} → {self.to_expr} (via {self.rule.name})"
 
 
 class RuleType(Enum):
@@ -323,6 +361,22 @@ class RuleDatabase:
         
         self.logger.info(f"Initialized RuleDatabase with rules directory: {self.rules_dir}")
     
+    def _check_for_duplicates(self, new_rule: LogicalRule) -> bool:
+        """
+        Check if rule already exists with same pattern/replacement.
+        
+        Args:
+            new_rule: Rule to check for duplicates
+            
+        Returns:
+            True if duplicate exists, False otherwise
+        """
+        for existing_rule in self.get_all_rules():
+            if (existing_rule.pattern == new_rule.pattern and 
+                existing_rule.replacement == new_rule.replacement):
+                return True
+        return False
+    
     def load_all_rules(self) -> Dict[RuleType, List[LogicalRule]]:
         """
         Load all rules from JSON files in the rules directory.
@@ -424,7 +478,7 @@ class RuleDatabase:
     
     def add_rule(self, rule: LogicalRule) -> None:
         """
-        Add a new rule to the database.
+        Enhanced add_rule with duplicate detection.
         
         Args:
             rule: LogicalRule instance to add
@@ -434,6 +488,11 @@ class RuleDatabase:
         """
         if rule.id in self.rule_index:
             raise ValueError(f"Rule with ID '{rule.id}' already exists")
+        
+        # Check for duplicate patterns/replacements
+        if self._check_for_duplicates(rule):
+            self.logger.debug(f"Skipping duplicate rule: {rule.id}")
+            return
         
         # Add to categorized storage
         self.rules[rule.rule_type].append(rule)
@@ -872,7 +931,7 @@ class LogicalRuleEngine:
     
     def _create_reverse_rule(self, rule: LogicalRule) -> LogicalRule:
         """
-        Create a reverse version of a bidirectional rule.
+        Create a reverse version of a bidirectional rule with enhanced handling.
         
         Args:
             rule: Original rule to reverse
@@ -880,17 +939,20 @@ class LogicalRuleEngine:
         Returns:
             New rule with pattern and replacement swapped
         """
+        if not rule.bidirectional:
+            return rule
+        
         return LogicalRule(
             id=f"{rule.id}_reverse",
             name=f"{rule.name} (Reverse)",
             rule_type=rule.rule_type,
-            pattern=rule.replacement,
+            pattern=rule.replacement,  # Swap pattern and replacement
             replacement=rule.pattern,
             conditions=rule.conditions,
             justification=f"Reverse of: {rule.justification}",
-            priority=rule.priority,
-            bidirectional=False,  # Prevent infinite recursion
-            metadata={**rule.metadata, 'reverse_of': rule.id}
+            priority=rule.priority - 1,  # Lower priority for reverse rules
+            bidirectional=False,  # Prevent recursion
+            metadata={**rule.metadata, "reverse_of": rule.id}
         )
     
     def apply_rule(self, expression: sp.Expr, rule: LogicalRule) -> Tuple[sp.Expr, bool, Dict[str, Any]]:
@@ -1207,6 +1269,116 @@ class LogicalRuleEngine:
         
         self.logger.info(f"Applied {len(transformation_sequence)} transformation steps")
         return transformation_sequence
+    
+    def apply_transformation_sequence(self, expression: sp.Expr, 
+                                    max_steps: int = 5) -> List[TransformationStep]:
+        """
+        Apply sequence of rules to reach canonical form with enhanced path planning.
+        
+        Args:
+            expression: Starting expression
+            max_steps: Maximum transformation steps allowed
+            
+        Returns:
+            List of TransformationStep objects representing the transformation
+        """
+        steps = []
+        current_expr = expression
+        
+        for step_num in range(max_steps):
+            applicable_rules = self.find_applicable_rules(current_expr)
+            if not applicable_rules:
+                break
+                
+            best_rule = self._select_optimal_rule(current_expr, applicable_rules)
+            new_expr, success, info = self.apply_rule(current_expr, best_rule)
+            
+            if success and new_expr != current_expr:
+                steps.append(TransformationStep(
+                    step=step_num + 1, 
+                    rule=best_rule,
+                    from_expr=current_expr, 
+                    to_expr=new_expr,
+                    justification=info.get('justification', best_rule.justification),
+                    metadata=info
+                ))
+                current_expr = new_expr
+            else:
+                break
+                
+        return steps
+    
+    def _select_optimal_rule(self, expression: sp.Expr, 
+                           applicable_rules: List[LogicalRule]) -> LogicalRule:
+        """
+        Select the optimal rule from applicable rules using mathematical sophistication.
+        
+        Args:
+            expression: Current expression
+            applicable_rules: List of rules that can be applied
+            
+        Returns:
+            Best rule to apply
+        """
+        if not applicable_rules:
+            raise ValueError("No applicable rules provided")
+        
+        if len(applicable_rules) == 1:
+            return applicable_rules[0]
+        
+        # Score rules based on multiple criteria
+        rule_scores = []
+        
+        for rule in applicable_rules:
+            score = self._calculate_rule_score(expression, rule)
+            rule_scores.append((rule, score))
+        
+        # Sort by score (highest first) and return best rule
+        rule_scores.sort(key=lambda x: x[1], reverse=True)
+        return rule_scores[0][0]
+    
+    def _calculate_rule_score(self, expression: sp.Expr, rule: LogicalRule) -> float:
+        """
+        Calculate a sophistication score for a rule application.
+        
+        Args:
+            expression: Expression to transform
+            rule: Rule to score
+            
+        Returns:
+            Score (higher is better)
+        """
+        score = float(rule.priority)  # Base score from priority
+        
+        try:
+            # Bonus for simplification (expression becomes shorter)
+            expr_complexity = len(str(expression))
+            replacement_complexity = len(rule.replacement)
+            
+            if replacement_complexity < expr_complexity:
+                score += 10  # Simplification bonus
+            
+            # Bonus for algebraic normalization
+            if rule.rule_type == RuleType.ALGEBRAIC:
+                score += 5
+            
+            # Bonus for trigonometric simplification
+            if rule.rule_type == RuleType.TRIGONOMETRIC:
+                if "sin" in str(expression) or "cos" in str(expression):
+                    score += 3
+            
+            # Penalty for reverse rules (favor forward direction)
+            if rule.metadata.get("reverse_of"):
+                score -= 2
+            
+            # Bonus for rules with conditions (more sophisticated)
+            if rule.conditions:
+                score += 1
+                
+        except Exception:
+            pass  # Keep base score if calculation fails
+        
+        return score
     
     def find_transformation_path(self, start_expr: sp.Expr, target_expr: sp.Expr, 
                                  max_depth: int = 10) -> Optional[List[LogicalRule]]:
