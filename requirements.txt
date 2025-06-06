@@ -33,6 +33,12 @@ pyvis>=0.3.2
 pydantic>=2.4.0
 pandas>=2.1.0
 
+# Phase 6C: Search & Browse Interface Dependencies
+whoosh>=2.7.4              # Search indexing
+python-levenshtein>=0.12.2  # Fuzzy search
+streamlit-aggrid>=0.3.4     # Advanced tables
+# streamlit-latex>=0.1.0    # LaTeX rendering (using built-in st.latex instead)
+
 # Development tools
 black==23.12.1
 isort==5.13.2
