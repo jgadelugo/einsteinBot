@@ -32,9 +32,11 @@ from ui.data.loaders import TheoremLoader, FormulaLoader
 from ui.data.models import Theorem, ValidationEvidence
 from ui.components.graph_viewer import GraphViewer
 from ui.components.graph_controls import GraphControls
-# from ui.components.theorem_browser import TheoremBrowser (to be implemented)
-# from ui.components.proof_viewer import ProofViewer (to be implemented)
-# from ui.components.search_interface import SearchInterface (to be implemented)
+from ui.components.search_interface import SearchInterface
+from ui.components.theorem_browser import TheoremBrowser
+from ui.components.theorem_detail import TheoremDetail
+from ui.components.proof_trace import ProofVisualizer
+from ui.data.search_index import SearchIndex
 
 
 class MathBotUI:
@@ -62,6 +64,9 @@ class MathBotUI:
         
         # Initialize data loaders
         self._initialize_data_loaders()
+        
+        # Initialize Phase 6C components
+        self._initialize_search_components()
     
     def _initialize_session_state(self) -> None:
         """Initialize Streamlit session state variables."""
@@ -76,6 +81,18 @@ class MathBotUI:
         
         if 'graph_filters' not in st.session_state:
             st.session_state.graph_filters = {}
+        
+        if 'search_results' not in st.session_state:
+            st.session_state.search_results = []
+        
+        if 'selected_theorem_detail' not in st.session_state:
+            st.session_state.selected_theorem_detail = None
+        
+        if 'browser_filters' not in st.session_state:
+            st.session_state.browser_filters = {}
+        
+        if 'selected_theorem_for_proof' not in st.session_state:
+            st.session_state.selected_theorem_for_proof = None
     
     def _configure_page(self) -> None:
         """Configure Streamlit page settings."""
@@ -141,6 +158,33 @@ class MathBotUI:
             self.theorem_loader = None
             self.formula_loader = None
     
+    def _initialize_search_components(self) -> None:
+        """Initialize Phase 6C search and browse components."""
+        try:
+            self.logger.info("Initializing Phase 6C search components")
+            
+            # Initialize search index
+            self.search_index = SearchIndex(self.config)
+            
+            # Initialize UI components
+            self.search_interface = SearchInterface(self.config, self.search_index)
+            self.theorem_browser = TheoremBrowser(self.config)
+            self.theorem_detail = TheoremDetail(self.config)
+            
+            # Initialize Phase 6D proof visualization
+            self.proof_visualizer = ProofVisualizer(self.config)
+            
+            self.logger.info("Phase 6C and 6D components initialized successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to initialize search components: {e}", exc_info=True)
+            # Set fallback None values to prevent crashes
+            self.search_index = None
+            self.search_interface = None
+            self.theorem_browser = None
+            self.theorem_detail = None
+            self.proof_visualizer = None
+    
     def render_sidebar(self) -> None:
         """Render the main navigation sidebar."""
         st.sidebar.title("🧮 MathBot Explorer")
@@ -150,9 +194,10 @@ class MathBotUI:
         pages = [
             "Overview",
             "Knowledge Graph", 
+            "Search & Browse",
             "Theorem Browser",
-            "Proof Viewer",
-            "Search & Filter"
+            "Theorem Detail",
+            "Proof Trace"
         ]
         
         selected_page = st.sidebar.selectbox(
@@ -233,7 +278,7 @@ class MathBotUI:
         
         with col3:
             if st.button("🔍 View Proofs", use_container_width=True):
-                st.session_state.current_page = "Proof Viewer"
+                st.session_state.current_page = "Proof Trace"
                 st.rerun()
         
         with col4:
@@ -489,143 +534,261 @@ class MathBotUI:
                 st.write(f"**Validated theorems:** {validated_count}")
     
     def render_theorem_browser_page(self) -> None:
-        """Render the theorem browser and search page."""
+        """Render the theorem browser page with professional table interface."""
         st.title("📚 Theorem Browser")
-        st.markdown("*Search, filter, and explore validated mathematical theorems*")
+        st.markdown("*Professional table view of all validated mathematical theorems*")
         
-        # Search interface
-        search_col, filter_col = st.columns([2, 1])
-        
-        with search_col:
-            search_query = st.text_input(
-                "Search theorems:",
-                value=st.session_state.search_query,
-                placeholder="Enter theorem statement, symbol, or description..."
-            )
-            st.session_state.search_query = search_query
-        
-        with filter_col:
-            theorem_type_filter = st.selectbox(
-                "Filter by type:",
-                ["All", "Functional Equation", "Generalization", "Transformation", "Algebraic Identity"]
-            )
-        
-        # Advanced filters
-        with st.expander("🔧 Advanced Filters"):
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                validation_filter = st.selectbox("Validation Status", ["All", "Pass", "Fail"])
-            with col2:
-                confidence_range = st.slider("Confidence Range", 0.0, 1.0, (0.0, 1.0))
-            with col3:
-                symbols_filter = st.multiselect("Contains Symbols", ["x", "f", "a", "π", "e"])
-        
-        # Placeholder theorem list
-        st.markdown("### Theorem Results")
-        st.info("🚧 **Under Development**: Theorem browser will display searchable, filterable list of all validated theorems.")
-        
-        # Placeholder theorem cards
-        for i in range(3):
-            with st.container():
-                st.markdown(f"""
-                <div class="theorem-card">
-                    <h4>Theorem THM_EXAMPLE_{i+1}</h4>
-                    <div class="math-expression">∀x ∈ ℝ, f(x) = x² + 2x + 1</div>
-                    <p><strong>Type:</strong> Functional Equation</p>
-                    <p><strong>Validation:</strong> <span class="validation-pass">PASS</span> (100% confidence)</p>
-                    <p><strong>Description:</strong> Example theorem demonstrating the interface structure.</p>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                if st.button(f"View Details", key=f"theorem_{i}"):
-                    st.session_state.selected_theorem = f"THM_EXAMPLE_{i+1}"
-                    st.session_state.current_page = "Proof Viewer"
-                    st.rerun()
-    
-    def render_proof_viewer_page(self) -> None:
-        """Render the proof trace viewer page."""
-        st.title("🔍 Proof Trace Viewer")
-        st.markdown("*Step-by-step visualization of theorem validation and proof traces*")
-        
-        # Theorem selection
-        if st.session_state.selected_theorem:
-            st.info(f"Viewing proof for: **{st.session_state.selected_theorem}**")
-        else:
-            st.warning("No theorem selected. Go to Theorem Browser to select a theorem.")
+        if not self.theorem_browser:
+            st.error("Theorem browser component not initialized. Please check the logs.")
             return
         
-        # Proof trace controls
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            st.selectbox("Proof Type", ["Validation Trace", "Transformation Chain", "Symbol Resolution"])
-        with col2:
-            st.checkbox("Show intermediate steps", value=True)
-        
-        # Placeholder proof steps
-        st.markdown("### Proof Steps")
-        st.info("🚧 **Under Development**: Proof viewer will show step-by-step validation and transformation traces.")
-        
-        # Example proof steps
-        proof_steps = [
-            "Original formula: x² + 2x + 1",
-            "Apply functional transformation: f(2x)",
-            "Substitute and expand: 4x² + 4x + 1", 
-            "Validate with test cases: 59 tests passed",
-            "Generate natural language description"
-        ]
-        
-        for i, step in enumerate(proof_steps):
-            st.markdown(f"""
-            <div class="proof-step">
-                <strong>Step {i+1}:</strong> {step}
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Validation details
-        st.markdown("### Validation Evidence")
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Test Cases", "59")
-        with col2:
-            st.metric("Pass Rate", "100%")
-        with col3:
-            st.metric("Validation Time", "0.047s")
+        try:
+            # Load theorems for browsing
+            theorems = []
+            if self.theorem_loader:
+                theorems = self.theorem_loader.load_theorems()
+            
+            if not theorems:
+                st.warning("No theorems available for browsing.")
+                return
+            
+            # Render the theorem browser
+            selected_theorem = self.theorem_browser.render_theorem_table(theorems)
+            
+            # Handle theorem selection
+            if selected_theorem:
+                st.session_state.selected_theorem_detail = selected_theorem
+                st.session_state.current_page = "Theorem Detail"
+                st.rerun()
+                
+        except Exception as e:
+            self.logger.error(f"Error rendering theorem browser: {e}", exc_info=True)
+            st.error(f"Failed to render theorem browser: {str(e)}")
+            st.info("Please check the logs for more details.")
     
-    def render_search_page(self) -> None:
-        """Render the advanced search and filter page."""
-        st.title("🔎 Advanced Search & Analytics")
-        st.markdown("*Multi-faceted search with advanced filtering and analytics*")
+    def render_proof_viewer_page(self) -> None:
+        """Render the Phase 6D proof trace visualization page."""
+        st.title("🔍 Proof Trace Visualization")
+        st.markdown("*Interactive exploration of theorem proofs and derivations*")
         
-        # Search tabs
-        tab1, tab2, tab3 = st.tabs(["Text Search", "Symbol Search", "Pattern Search"])
+        if not self.proof_visualizer:
+            st.error("Proof visualizer not initialized. Please check the logs.")
+            return
         
-        with tab1:
-            st.text_input("Natural language search", placeholder="Find theorems about quadratic functions...")
-            st.info("🚧 **Under Development**: Natural language search across theorem descriptions and mathematical content.")
+        # Get selected theorem for proof visualization
+        selected_theorem = self._get_selected_theorem_for_proof()
         
-        with tab2:
-            st.multiselect("Search by symbols", ["x", "f", "a", "π", "e", "∀", "∃", "∈"])
-            st.info("🚧 **Under Development**: Symbol-based search to find theorems containing specific mathematical symbols.")
+        if not selected_theorem:
+            st.warning("Please select a theorem to view its proof trace.")
+            self._render_theorem_selection_interface()
+            return
         
-        with tab3:
-            st.selectbox("Pattern type", ["Functional patterns", "Algebraic patterns", "Transformation patterns"])
-            st.info("🚧 **Under Development**: Pattern-based search using mathematical structure analysis.")
+        # Initialize proof visualization session
+        session_key = f"proof_session_{selected_theorem.id}"
+        if session_key not in st.session_state:
+            from ui.data.proof_models import ProofVisualizationSession
+            st.session_state[session_key] = ProofVisualizationSession(
+                theorem_id=selected_theorem.id,
+                theorem=selected_theorem
+            )
         
-        # Analytics section
-        st.markdown("---")
-        st.subheader("📊 Knowledge Analytics")
+        # Render proof visualization
+        try:
+            self.proof_visualizer.render_proof_visualization(
+                selected_theorem,
+                st.session_state[session_key]
+            )
+        except Exception as e:
+            self.logger.error(f"Error rendering proof visualization: {e}", exc_info=True)
+            st.error(f"Failed to render proof visualization: {str(e)}")
+            st.info("Please check the logs for more details.")
+    
+    def _get_selected_theorem_for_proof(self):
+        """Get selected theorem for proof visualization."""
+        # Try to get from various selection sources
         
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Theorem Distribution**")
-            # Placeholder chart
-            st.bar_chart({"Functional Equations": 3, "Generalizations": 3, "Transformations": 3, "Identities": 1})
+        # 1. Check if explicitly set for proof viewing
+        if getattr(st.session_state, 'selected_theorem_for_proof', None):
+            return st.session_state.selected_theorem_for_proof
         
-        with col2:
-            st.markdown("**Validation Metrics**")
-            st.write("- Average confidence: 100%")
-            st.write("- Total test cases: 180+")
-            st.write("- Average validation time: 0.05s")
+        # 2. Try to get from Phase 6C selection (theorem detail)
+        if getattr(st.session_state, 'selected_theorem_detail', None):
+            return st.session_state.selected_theorem_detail
+        
+        # 3. Try to get from general theorem selection
+        if getattr(st.session_state, 'selected_theorem', None):
+            # This might be just an ID, so we need to load the full theorem
+            theorem_id = st.session_state.selected_theorem
+            if self.theorem_loader:
+                theorems = self.theorem_loader.load_theorems()
+                for theorem in theorems:
+                    if theorem.id == theorem_id or str(theorem.id) == str(theorem_id):
+                        return theorem
+        
+        return None
+    
+    def _render_theorem_selection_interface(self) -> None:
+        """Render interface for selecting theorem for proof visualization."""
+        st.markdown("### Select Theorem for Proof Visualization")
+        
+        # Load available theorems
+        if not self.theorem_loader:
+            st.error("Theorem loader not available.")
+            return
+        
+        try:
+            theorems = self.theorem_loader.load_theorems()
+            
+            if not theorems:
+                st.warning("No theorems available. Please run theorem generation first.")
+                return
+            
+            # Theorem selector
+            theorem_options = []
+            for t in theorems:
+                display_text = f"{t.short_id}: {t.statement[:80]}..."
+                theorem_options.append((display_text, t))
+            
+            selected_index = st.selectbox(
+                "Choose theorem:",
+                range(len(theorem_options)),
+                format_func=lambda i: theorem_options[i][0],
+                key="proof_theorem_selector"
+            )
+            
+            if st.button("Select Theorem for Proof Analysis", type="primary"):
+                selected_theorem = theorem_options[selected_index][1]
+                st.session_state.selected_theorem_for_proof = selected_theorem
+                st.rerun()
+                
+            # Quick navigation options
+            st.markdown("---")
+            st.markdown("**Or navigate to:**")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("🔍 Search & Browse"):
+                    st.session_state.current_page = "Search & Browse"
+                    st.rerun()
+            with col2:
+                if st.button("📚 Theorem Browser"):
+                    st.session_state.current_page = "Theorem Browser"
+                    st.rerun()
+                    
+        except Exception as e:
+            self.logger.error(f"Error loading theorems for proof selection: {e}")
+            st.error("Failed to load theorems. Please check the logs.")
+    
+    def render_search_browse_page(self) -> None:
+        """Render the comprehensive search and browse page."""
+        st.title("🔎 Search & Browse")
+        st.markdown("*Advanced multi-modal search with real-time filtering and analytics*")
+        
+        if not self.search_interface:
+            st.error("Search interface component not initialized. Please check the logs.")
+            return
+        
+        try:
+            # Load theorems for searching
+            theorems = []
+            if self.theorem_loader:
+                theorems = self.theorem_loader.load_theorems()
+            
+            if not theorems:
+                st.warning("No theorems available for searching.")
+                return
+            
+            # Build search index if needed
+            if self.search_index:
+                self.search_index.build_index(theorems)
+            
+            # Render search interface
+            search_results = self.search_interface.render_search_interface(theorems)
+            
+            # Handle search results
+            if search_results:
+                st.session_state.search_results = search_results
+                
+                # Quick navigation to browser with results
+                if st.button("🔍 View Results in Browser", help="Open search results in theorem browser"):
+                    st.session_state.current_page = "Theorem Browser"
+                    st.rerun()
+                    
+        except Exception as e:
+            self.logger.error(f"Error rendering search interface: {e}", exc_info=True)
+            st.error(f"Failed to render search interface: {str(e)}")
+            st.info("Please check the logs for more details.")
+    
+    def render_theorem_detail_page(self) -> None:
+        """Render the comprehensive theorem detail page."""
+        st.title("📐 Theorem Details")
+        st.markdown("*Comprehensive theorem analysis with LaTeX rendering and validation insights*")
+        
+        if not self.theorem_detail:
+            st.error("Theorem detail component not initialized. Please check the logs.")
+            return
+        
+        # Check if theorem is selected
+        selected_theorem = getattr(st.session_state, 'selected_theorem_detail', None)
+        if not selected_theorem:
+            st.info("No theorem selected for detailed view.")
+            st.markdown("**Navigation Options:**")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("🔍 Go to Search & Browse"):
+                    st.session_state.current_page = "Search & Browse"
+                    st.rerun()
+            with col2:
+                if st.button("📚 Go to Theorem Browser"):
+                    st.session_state.current_page = "Theorem Browser"
+                    st.rerun()
+            return
+        
+        try:
+            # Get related theorems from graph (if available from Phase 6B)
+            related_theorems = []
+            if hasattr(self, 'graph_viewer') and self.graph_viewer:
+                # This would connect with Phase 6B graph functionality
+                related_theorems = self._get_related_theorems(selected_theorem)
+            
+            # Render comprehensive theorem detail
+            self.theorem_detail.render_theorem_detail(selected_theorem, related_theorems)
+            
+            # Navigation controls
+            st.markdown("---")
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                if st.button("← Back to Browser"):
+                    st.session_state.current_page = "Theorem Browser"
+                    st.rerun()
+            
+            with col2:
+                if st.button("🔍 New Search"):
+                    st.session_state.current_page = "Search & Browse"
+                    st.rerun()
+            
+            with col3:
+                if st.button("📊 View in Graph"):
+                    st.session_state.current_page = "Knowledge Graph"
+                    # Set graph to focus on this theorem
+                    if hasattr(st.session_state, 'graph_selected_node'):
+                        st.session_state.graph_selected_node = selected_theorem.id
+                    st.rerun()
+                    
+        except Exception as e:
+            self.logger.error(f"Error rendering theorem detail: {e}", exc_info=True)
+            st.error(f"Failed to render theorem detail: {str(e)}")
+            st.info("Please check the logs for more details.")
+    
+    def _get_related_theorems(self, theorem: 'Theorem') -> List['Theorem']:
+        """Get related theorems using graph connections (Phase 6B integration)."""
+        try:
+            # This would integrate with Phase 6B graph functionality
+            # For now, return empty list as placeholder
+            return []
+        except Exception as e:
+            self.logger.error(f"Error getting related theorems: {e}")
+            return []
     
     def run(self) -> None:
         """Run the main application loop."""
@@ -640,12 +803,14 @@ class MathBotUI:
                 self.render_overview_page()
             elif page == "Knowledge Graph":
                 self.render_graph_page()
+            elif page == "Search & Browse":
+                self.render_search_browse_page()
             elif page == "Theorem Browser":
                 self.render_theorem_browser_page()
-            elif page == "Proof Viewer":
+            elif page == "Theorem Detail":
+                self.render_theorem_detail_page()
+            elif page == "Proof Trace":
                 self.render_proof_viewer_page()
-            elif page == "Search & Filter":
-                self.render_search_page()
             else:
                 st.error(f"Unknown page: {page}")
             
