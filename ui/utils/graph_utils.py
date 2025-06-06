@@ -9,8 +9,8 @@ import networkx as nx
 from typing import Dict, List, Set, Tuple, Optional, Any, Union
 
 from config import logger
-from ..data.models import Theorem
-from ..config import UIConfig
+from ui.data.models import Theorem
+from ui.config import UIConfig
 
 
 class KnowledgeGraphBuilder:
@@ -381,7 +381,7 @@ def create_graph_builder(config: Optional[UIConfig] = None) -> KnowledgeGraphBui
         KnowledgeGraphBuilder instance
     """
     if config is None:
-        from ..config import get_ui_config
+        from ui.config import get_ui_config
         config = get_ui_config()
     
     return KnowledgeGraphBuilder(config)

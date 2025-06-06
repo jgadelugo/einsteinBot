@@ -10,7 +10,23 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-from config import PROJECT_ROOT, logger
+import sys
+import os
+
+# Get the project root directory (two levels up from ui/config.py)
+PROJECT_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT_DIR not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT_DIR)
+
+# Import from the root config module by explicit path to avoid naming conflicts
+import importlib.util
+root_config_path = os.path.join(PROJECT_ROOT_DIR, 'config.py')
+spec = importlib.util.spec_from_file_location("root_config", root_config_path)
+root_config = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(root_config)
+
+PROJECT_ROOT = root_config.PROJECT_ROOT
+logger = root_config.logger
 
 
 @dataclass(frozen=True)

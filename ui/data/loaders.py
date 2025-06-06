@@ -22,7 +22,7 @@ from .models import (
     ValidationReport,
     SourceLineage,
 )
-from ..config import UIConfig
+from ui.config import UIConfig
 
 
 class CacheEntry:
@@ -470,7 +470,7 @@ def create_data_loaders(config: Optional[UIConfig] = None) -> Tuple[TheoremLoade
         Tuple of (theorem_loader, formula_loader, validation_loader)
     """
     if config is None:
-        from ..config import get_ui_config
+        from ui.config import get_ui_config
         config = get_ui_config()
     
     theorem_loader = TheoremLoader(config)

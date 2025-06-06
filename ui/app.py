@@ -24,16 +24,17 @@ import pandas as pd
 # Add the parent directory to sys.path to import from the main project
 sys.path.append(str(Path(__file__).parent.parent))
 
-from config import logger
+from ui.utils.ui_logging import get_ui_logger, log_user_action, log_ui_interaction, log_ui_error
 
-# UI-specific imports (to be implemented)
-# from ui.config import UIConfig
-# from ui.data.loaders import TheoremLoader, FormulaLoader
-# from ui.data.models import Theorem, ValidationEvidence
-# from ui.components.graph_viewer import GraphViewer
-# from ui.components.theorem_browser import TheoremBrowser
-# from ui.components.proof_viewer import ProofViewer
-# from ui.components.search_interface import SearchInterface
+# UI-specific imports
+from ui.config import UIConfig, get_ui_config
+from ui.data.loaders import TheoremLoader, FormulaLoader
+from ui.data.models import Theorem, ValidationEvidence
+from ui.components.graph_viewer import GraphViewer
+from ui.components.graph_controls import GraphControls
+# from ui.components.theorem_browser import TheoremBrowser (to be implemented)
+# from ui.components.proof_viewer import ProofViewer (to be implemented)
+# from ui.components.search_interface import SearchInterface (to be implemented)
 
 
 class MathBotUI:
@@ -46,8 +47,12 @@ class MathBotUI:
     
     def __init__(self):
         """Initialize the MathBot UI application."""
-        self.logger = logger.getChild("MathBotUI")
+        self.logger = get_ui_logger("mathbot_ui")
         self.logger.info("Initializing MathBot UI application")
+        log_ui_interaction("mathbot_ui", "app_initialization_started")
+        
+        # Initialize configuration
+        self.config = get_ui_config()
         
         # Initialize session state
         self._initialize_session_state()
@@ -55,7 +60,7 @@ class MathBotUI:
         # Configure page settings
         self._configure_page()
         
-        # Initialize data loaders (placeholder)
+        # Initialize data loaders
         self._initialize_data_loaders()
     
     def _initialize_session_state(self) -> None:
@@ -121,16 +126,20 @@ class MathBotUI:
     
     def _initialize_data_loaders(self) -> None:
         """Initialize data loaders for theorems, formulas, and validation data."""
-        self.logger.info("Initializing data loaders")
-        
-        # Placeholder - will be replaced with actual implementations
-        # self.theorem_loader = TheoremLoader()
-        # self.formula_loader = FormulaLoader()
-        
-        # For now, set placeholder data
-        self.theorems_data = None
-        self.formulas_data = None
-        self.validation_data = None
+        try:
+            self.logger.info("Initializing data loaders")
+            
+            # Initialize actual data loaders with error handling
+            self.theorem_loader = TheoremLoader(self.config)
+            self.formula_loader = FormulaLoader(self.config)
+            
+            self.logger.info("Data loaders initialized successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to initialize data loaders: {e}", exc_info=True)
+            # Set fallback None values to prevent crashes
+            self.theorem_loader = None
+            self.formula_loader = None
     
     def render_sidebar(self) -> None:
         """Render the main navigation sidebar."""
@@ -247,37 +256,237 @@ class MathBotUI:
             st.metric("Validation Rate", "100%", "0%")
     
     def render_graph_page(self) -> None:
-        """Render the knowledge graph visualization page."""
+        """Render the interactive knowledge graph visualization page."""
         st.title("🌐 Mathematical Knowledge Graph")
         st.markdown("*Explore relationships between theorems, formulas, and concepts*")
         
-        # Placeholder content
-        st.info("🚧 **Under Development**: Graph visualization component will display interactive mathematical knowledge networks.")
+        # Initialize components if not in session state
+        if not hasattr(st.session_state, 'graph_viewer'):
+            try:
+                st.session_state.graph_viewer = GraphViewer(self.config)
+            except Exception as e:
+                self.logger.error(f"Failed to initialize GraphViewer: {e}", exc_info=True)
+                st.error("Failed to initialize graph viewer. Please refresh the page.")
+                return
+                
+        if not hasattr(st.session_state, 'graph_controls'):
+            try:
+                st.session_state.graph_controls = GraphControls()
+            except Exception as e:
+                self.logger.error(f"Failed to initialize GraphControls: {e}", exc_info=True)
+                st.error("Failed to initialize graph controls. Please refresh the page.")
+                return
         
-        # Graph controls (placeholder)
-        col1, col2, col3 = st.columns([1, 1, 2])
-        with col1:
-            st.selectbox("Layout Algorithm", ["Force-directed", "Hierarchical", "Circular"])
-        with col2:
-            st.selectbox("Color By", ["Theorem Type", "Validation Status", "Complexity"])
-        with col3:
-            st.multiselect("Filter Node Types", ["Theorems", "Formulas", "Symbols", "Topics"])
+        # Load theorem data using Phase 6A loader
+        try:
+            if self.theorem_loader is None:
+                st.error("❌ Data loader not available. Please check system configuration.")
+                return
+                
+            theorems = self.theorem_loader.load_theorems()
+            if not theorems:
+                st.warning("⚠️ No theorem data available for visualization.")
+                st.info("Please ensure data files are available and properly formatted.")
+                return
+                
+        except Exception as e:
+            st.error(f"❌ Error loading theorem data: {e}")
+            self.logger.error(f"Graph page data loading failed: {e}", exc_info=True)
+            return
         
-        # Placeholder graph area
-        st.markdown("### Interactive Graph")
-        st.empty()  # Graph component will be rendered here
+        # Sidebar controls
+        with st.sidebar:
+            st.header("🎛️ Graph Controls")
+            
+            try:
+                # Layout and appearance controls
+                layout_config = st.session_state.graph_controls.render_layout_controls()
+                
+                st.markdown("---")
+                
+                # Theorem filtering controls
+                filter_config = st.session_state.graph_controls.render_filter_controls(theorems)
+                
+                st.markdown("---")
+                
+                # Node exploration controls
+                available_nodes = [t.id for t in theorems]
+                exploration_config = st.session_state.graph_controls.render_exploration_controls(available_nodes)
+                
+                st.markdown("---")
+                
+                # Performance information - will update with actual edge count after building graph
+                st.session_state.graph_controls.render_performance_info(len(theorems), 0)
+                
+            except Exception as e:
+                self.logger.error(f"Failed to render sidebar controls: {e}", exc_info=True)
+                st.error("Failed to render controls. Using default settings.")
+                # Provide fallback configuration
+                layout_config = {"layout_algorithm": "spring", "color_by": "theorem_type", "node_size_factor": 1.0, "show_labels": True, "physics_enabled": True}
+                filter_config = {"selected_types": ["all"], "validation_filter": "all", "confidence_range": (0.0, 1.0)}
+                exploration_config = {"selected_node": None, "exploration_depth": 1, "highlight_neighbors": False}
         
-        # Graph statistics (placeholder)
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("Graph Statistics")
-            st.write("- **Nodes**: 13 theorems + formulas + symbols")
-            st.write("- **Edges**: Derivation, transformation, similarity relationships")
-            st.write("- **Components**: Connected theorem clusters")
+        # Apply filters to theorems
+        try:
+            filtered_theorems = st.session_state.graph_viewer.filter_theorems_by_selection(
+                theorems,
+                filter_config["selected_types"],
+                filter_config["validation_filter"],
+                filter_config["confidence_range"]
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to filter theorems: {e}", exc_info=True)
+            st.error("Error applying filters. Showing all theorems.")
+            filtered_theorems = theorems
         
-        with col2:
-            st.subheader("Selected Node Info")
-            st.write("*Click on a node to see detailed information*")
+        # Main content area
+        if filtered_theorems:
+            # Display filter results
+            st.subheader(f"📈 Interactive Graph ({len(filtered_theorems)} theorems)")
+            
+            # Create two columns for graph and details
+            col1, col2 = st.columns([3, 1])
+            
+            with col1:
+                try:
+                    # Render the interactive graph
+                    fig = st.session_state.graph_viewer.render_interactive_graph(
+                        filtered_theorems,
+                        selected_node=exploration_config["selected_node"],
+                        **layout_config
+                    )
+                    
+                    # Display graph with interaction
+                    st.plotly_chart(
+                        fig, 
+                        use_container_width=True,
+                        key="knowledge_graph",
+                        config={'displayModeBar': True, 'displaylogo': False}
+                    )
+                    
+                except Exception as e:
+                    self.logger.error(f"Failed to render graph: {e}", exc_info=True)
+                    st.error("Failed to render graph visualization. Please try refreshing the page.")
+            
+            with col2:
+                # Selected node information panel
+                st.subheader("🎯 Node Details")
+                
+                try:
+                    if exploration_config["selected_node"]:
+                        selected_theorem = next(
+                            (t for t in filtered_theorems if t.id == exploration_config["selected_node"]), 
+                            None
+                        )
+                        
+                        if selected_theorem:
+                            # Display theorem information
+                            st.markdown(f"**ID:** `{selected_theorem.id}`")
+                            st.markdown(f"**Type:** {selected_theorem.theorem_type_display}")
+                            
+                            # Validation status with color
+                            status = selected_theorem.validation_evidence.validation_status if selected_theorem.validation_evidence else "Unknown"
+                            if status == "PASS":
+                                st.success(f"✅ Validated: {status}")
+                            elif status == "FAIL":
+                                st.error(f"❌ Validation: {status}")
+                            else:
+                                st.warning(f"⚠️ Validation: {status}")
+                            
+                            # Confidence score
+                            confidence = selected_theorem.source_lineage.confidence if selected_theorem.source_lineage else 0.0
+                            st.metric("Confidence", f"{confidence:.2f}")
+                            
+                            # Expandable sections
+                            with st.expander("📝 View Statement"):
+                                st.latex(selected_theorem.display_statement)
+                            
+                            with st.expander("🔗 View Connections"):
+                                try:
+                                    # Build graph to get connections
+                                    graph = st.session_state.graph_viewer.graph_builder.build_theorem_graph(filtered_theorems)
+                                    neighbors = st.session_state.graph_viewer.get_node_neighbors(
+                                        graph, 
+                                        exploration_config["selected_node"],
+                                        exploration_config["exploration_depth"]
+                                    )
+                                    
+                                    if neighbors:
+                                        st.write(f"**Connected to {len(neighbors)} nodes:**")
+                                        for neighbor in sorted(list(neighbors))[:10]:  # Show first 10
+                                            st.write(f"• {neighbor}")
+                                        if len(neighbors) > 10:
+                                            st.write(f"... and {len(neighbors) - 10} more")
+                                    else:
+                                        st.info("No connections found at current depth")
+                                        
+                                except Exception as e:
+                                    self.logger.error(f"Failed to analyze connections: {e}")
+                                    st.error("Failed to analyze node connections")
+                            
+                            with st.expander("📊 Validation Details"):
+                                if selected_theorem.validation_evidence:
+                                    st.json(selected_theorem.validation_evidence.model_dump())
+                                else:
+                                    st.info("No validation evidence available")
+                        
+                        else:
+                            st.error("Selected theorem not found in filtered results")
+                    else:
+                        st.info("👆 Select a node in the graph to view detailed information")
+                        
+                except Exception as e:
+                    self.logger.error(f"Failed to render node details: {e}", exc_info=True)
+                    st.error("Failed to load node details")
+            
+            # Graph statistics below
+            st.markdown("---")
+            st.subheader("📊 Graph Statistics")
+            
+            try:
+                # Build graph for statistics
+                graph = st.session_state.graph_viewer.graph_builder.build_theorem_graph(filtered_theorems)
+                stats = st.session_state.graph_viewer.graph_builder.get_graph_statistics(graph)
+                
+                # Display statistics in columns
+                stat_col1, stat_col2, stat_col3, stat_col4 = st.columns(4)
+                
+                with stat_col1:
+                    st.metric("Total Nodes", stats.get("total_nodes", 0))
+                
+                with stat_col2:
+                    st.metric("Total Edges", stats.get("total_edges", 0))
+                
+                with stat_col3:
+                    st.metric("Graph Density", f"{stats.get('density', 0):.3f}")
+                
+                with stat_col4:
+                    st.metric("Components", stats.get("connected_components", 0))
+                
+                # Additional insights
+                if stats.get("total_nodes", 0) > 0:
+                    avg_degree = (2 * stats.get("total_edges", 0)) / stats.get("total_nodes", 1)
+                    st.info(f"📈 Average node degree: {avg_degree:.2f}")
+                    
+            except Exception as e:
+                self.logger.error(f"Failed to generate graph statistics: {e}", exc_info=True)
+                st.error("Failed to generate graph statistics")
+        
+        else:
+            # No theorems after filtering
+            st.info("🔍 No theorems match the current filters.")
+            st.markdown("**Try adjusting your selection:**")
+            st.markdown("- Include more theorem types")
+            st.markdown("- Expand confidence range")
+            st.markdown("- Change validation filter")
+            
+            # Show available options
+            with st.expander("View Available Data"):
+                st.write(f"**Total theorems:** {len(theorems)}")
+                available_types = list(set(t.theorem_type for t in theorems))
+                st.write(f"**Available types:** {', '.join(available_types)}")
+                validated_count = sum(1 for t in theorems if t.is_validated)
+                st.write(f"**Validated theorems:** {validated_count}")
     
     def render_theorem_browser_page(self) -> None:
         """Render the theorem browser and search page."""
