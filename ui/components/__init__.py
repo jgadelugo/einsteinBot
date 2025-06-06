@@ -10,12 +10,15 @@ This package contains the individual UI components for the MathBot interface:
 Each component is designed to be modular, reusable, and type-safe.
 """
 
-# Component imports will be added as components are implemented
-# from .graph_viewer import GraphViewer
-# from .theorem_browser import TheoremBrowser  
-# from .proof_viewer import ProofViewer
-# from .search_interface import SearchInterface
+# Component imports
+from .graph_viewer import GraphViewer
+from .graph_controls import GraphControls
+# from .theorem_browser import TheoremBrowser  (to be implemented)
+# from .proof_viewer import ProofViewer (to be implemented)
+# from .search_interface import SearchInterface (to be implemented)
 
 __all__ = [
-    # Component classes will be exported here as they are implemented
+    "GraphViewer",
+    "GraphControls",
+    # Additional components will be added as they are implemented
 ] 
